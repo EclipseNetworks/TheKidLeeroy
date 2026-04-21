@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHRONOS | Digital Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;900&family=Syncopate:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #10b981;
+            --bg: #020617;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        /* Ambient Background */
+        .grid-aura {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(16, 185, 129, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 50px 50px, 50px 50px;
+            z-index: -1;
+        }
+
+        /* Clock Container */
+        .clock-outer {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            transition: transform 0.1s ease-out;
+        }
+
+        /* The Rings */
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+        .ring-1 { width: 90%; height: 90%; border-style: dashed; animation: rotate 60s linear infinite; }
+        .ring-2 { width: 70%; height: 70%; border-color: rgba(255,255,255,0.05); }
+
+        /* Hands */
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        
+        .hour { width: 6px; height: 100px; background: white; transform: translateX(-50%); }
+        .min { width: 4px; height: 140px; background: rgba(255,255,255,0.5); transform: translateX(-50%); }
+        .sec { 
+            width: 2px; height: 160px; 
+            background: var(--primary); 
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .center-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            z-index: 20;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Digital Readout */
+        .digital {
+            position: absolute;
+            bottom: 80px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: rgba(16, 185, 129, 0.5);
+            text-transform: uppercase;
+        }
+
+        .brand {
+            position: absolute;
+            top: 80px;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Floating Animation */
+        .float { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-20px) rotateX(5deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-aura"></div>
+
+    <div class="clock-outer float" id="clockUI">
+        <div class="brand">SYSTEM.CHRONOS</div>
+        
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+
+        <div class="hand hour" id="hHand"></div>
+        <div class="hand min" id="mHand"></div>
+        <div class="hand sec" id="sHand"></div>
+        
+        <div class="center-dot"></div>
+
+        <div class="digital" id="digiClock">00:00:00</div>
+    </div>
+
+    <div class="fixed bottom-10 left-10 mono text-[9px] text-emerald-500/40 uppercase tracking-[0.5em]">
+        Status: Temporal Link Stable<br>
+        Frequency: 60Hz
+    </div>
+
+    <script>
+        const hHand = document.getElementById('hHand');
+        const mHand = document.getElementById('mHand');
+        const sHand = document.getElementById('sHand');
+        const digiClock = document.getElementById('digiClock');
+        const clockUI = document.getElementById('clockUI');
+
+        function updateClock() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours();
+
+            // Calculate Degrees
+            const sDeg = (seconds / 60) * 360;
+            const mDeg = (minutes / 60) * 360 + (seconds / 60) * 6;
+            const hDeg = (hours / 12) * 360 + (minutes / 60) * 30;
+
+            // Apply Rotation
+            sHand.style.transform = `translateX(-50%) rotate(${sDeg}deg)`;
+            mHand.style.transform = `translateX(-50%) rotate(${mDeg}deg)`;
+            hHand.style.transform = `translateX(-50%) rotate(${hDeg}deg)`;
+
+            // Digital Update
+            const displayH = String(hours).padStart(2, '0');
+            const displayM = String(minutes).padStart(2, '0');
+            const displayS = String(seconds).padStart(2, '0');
+            digiClock.innerText = `${displayH}:${displayM}:${displayS}`;
+        }
+
+        // Mouse Reactivity (Parallax)
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
+            clockUI.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+
+        // Initialize
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
