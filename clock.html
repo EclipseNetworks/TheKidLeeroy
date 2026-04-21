@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL // XCLIPSE_ULTRA</title>
+    <title>TERMINAL // XCLIPSE_ULTRA_v2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
@@ -67,7 +67,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Custom UI Elements */
         .setting-section {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
@@ -103,21 +102,56 @@
             cursor: pointer;
         }
 
-        /* Frequency Visualizer */
         .freq-bar {
             width: 3px;
             background: var(--primary);
             margin: 0 1px;
             transition: height 0.1s ease;
         }
+
+        /* Spotify Specific Styles */
+        .btn-spotify {
+            background: #1DB954;
+            color: black;
+            font-weight: 800;
+            font-size: 9px;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .btn-spotify:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .spotify-progress-bg { height: 2px; width: 100%; background: rgba(255,255,255,0.1); border-radius: 1px; margin-top: 8px; overflow: hidden; }
+        .spotify-progress-fill { height: 100%; background: #1DB954; width: 0%; transition: width 1s linear; }
     </style>
 </head>
 <body class="scanline-active">
 
     <aside class="sidebar overflow-y-auto">
         <div class="mb-8">
-            <h2 class="font-bold text-[11px] tracking-[0.5em] uppercase text-white">System_Commander<span class="animate-pulse text-pink-500">_</span></h2>
-            <p class="text-[8px] opacity-30 font-mono mt-1">BUILD: 2026.4.21.ULTRA</p>
+            <h2 class="font-bold text-[11px] tracking-[0.5em] uppercase text-white">Xclipse_Ultra<span class="animate-pulse text-pink-500">_</span></h2>
+            <p class="text-[8px] opacity-30 font-mono mt-1">UPLINK_STATION: BORDERTOWN</p>
+        </div>
+
+        <div class="setting-section">
+            <label class="config-label">Media_Uplink</label>
+            <div id="spotify-login-view">
+                <button onclick="loginSpotify()" class="btn-spotify">Login with Spotify</button>
+            </div>
+            <div id="spotify-player-view" class="hidden space-y-3">
+                <div class="flex items-center gap-3">
+                    <img id="sp-art" src="" class="w-10 h-10 rounded shadow-lg" alt="">
+                    <div class="min-w-0">
+                        <p id="sp-name" class="text-[10px] font-black truncate text-white uppercase"></p>
+                        <p id="sp-artist" class="text-[8px] text-white/40 truncate"></p>
+                    </div>
+                </div>
+                <div class="spotify-progress-bg">
+                    <div id="sp-progress" class="spotify-progress-fill"></div>
+                </div>
+            </div>
         </div>
 
         <div class="setting-section">
@@ -126,8 +160,7 @@
                 <button onclick="setTheme('#ec4899', '#050811', '60px')" class="preset-btn border-l-2 border-l-pink-500">01 // NEON_PINK</button>
                 <button onclick="setTheme('#0ea5e9', '#020617', '40px')" class="preset-btn border-l-2 border-l-blue-500">02 // VOLTAGE_BLUE</button>
                 <button onclick="setTheme('#4ade80', '#050a05', '50px')" class="preset-btn border-l-2 border-l-green-400">03 // TOXIC_VAULT</button>
-                <button onclick="setTheme('#ff003c', '#0a0000', '80px')" class="preset-btn border-l-2 border-l-red-600">04 // CRITICAL_RED</button>
-                <button onclick="setTheme('#ffffff', '#000000', '10px')" class="preset-btn border-l-2 border-l-white">05 // OBSIDIAN_WHITE</button>
+                <button onclick="setTheme('#ffffff', '#000000', '10px')" class="preset-btn border-l-2 border-l-white">04 // OBSIDIAN_STARK</button>
             </div>
         </div>
 
@@ -136,12 +169,10 @@
                 <label class="config-label">Glow Amplitude</label>
                 <input type="range" id="glowRange" min="0" max="60" value="20" oninput="updateGlow(this.value)">
             </div>
-            
             <div class="toggle-box" onclick="toggleScanlines()">
                 <span>HARDWARE_SCANLINES</span>
                 <div id="scanStatus" class="text-green-500">ON</div>
             </div>
-
             <div class="toggle-box" onclick="toggleWeight()">
                 <span>TYPOGRAPHY_MASS</span>
                 <div id="weightStatus">BOLD</div>
@@ -150,8 +181,7 @@
 
         <div class="setting-section">
             <label class="config-label">Kernel Activity</label>
-            <div class="flex items-end h-12 gap-[1px]" id="visualizer">
-                </div>
+            <div class="flex items-end h-12 gap-[1px]" id="visualizer"></div>
         </div>
 
         <div class="mt-auto text-[8px] opacity-20 space-y-1 font-mono">
@@ -184,15 +214,54 @@
                 </div>
             </div>
         </div>
-
-        <div class="absolute bottom-10 text-[9px] text-white/10 tracking-[2em] uppercase">
-            Bordertown Station // South Australia
-        </div>
+        <div class="absolute bottom-10 text-[9px] text-white/10 tracking-[2em] uppercase">Bordertown Station // South Australia</div>
     </main>
 
     <script>
         const root = document.documentElement;
-        
+
+        // --- SPOTIFY CORE ---
+        const CLIENT_ID = 'ee9cf7fe920d4280804730690b3fb4e8';
+        const REDIRECT_URI = window.location.origin + window.location.pathname;
+        const SCOPES = 'user-read-currently-playing user-read-playback-state';
+
+        function loginSpotify() {
+            const url = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPES)}`;
+            window.location.href = url;
+        }
+
+        const hash = window.location.hash.substring(1).split('&').reduce((initial, item) => {
+            if (item) {
+                const parts = item.split('=');
+                initial[parts[0]] = decodeURIComponent(parts[1]);
+            }
+            return initial;
+        }, {});
+
+        let accessToken = hash.access_token;
+        if (accessToken) {
+            window.location.hash = "";
+            document.getElementById('spotify-login-view').classList.add('hidden');
+            document.getElementById('spotify-player-view').classList.remove('hidden');
+            setInterval(syncSpotify, 3000);
+        }
+
+        async function syncSpotify() {
+            try {
+                const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+                    headers: { 'Authorization': 'Bearer ' + accessToken }
+                });
+                if (res.status === 200) {
+                    const data = await res.json();
+                    document.getElementById('sp-art').src = data.item.album.images[0].url;
+                    document.getElementById('sp-name').innerText = data.item.name;
+                    document.getElementById('sp-artist').innerText = data.item.artists[0].name;
+                    const prog = (data.progress_ms / data.item.duration_ms) * 100;
+                    document.getElementById('sp-progress').style.width = prog + '%';
+                }
+            } catch (e) { console.error("Spotify Uplink Lost"); }
+        }
+
         // --- SETTINGS ENGINE ---
         function setTheme(primary, bg, glow) {
             root.style.setProperty('--primary', primary);
@@ -201,15 +270,14 @@
             document.getElementById('glowRange').value = parseInt(glow);
         }
 
-        function updateGlow(val) {
-            root.style.setProperty('--glow', val + 'px');
-        }
+        function updateGlow(val) { root.style.setProperty('--glow', val + 'px'); }
 
         function toggleScanlines() {
             const body = document.body;
             body.classList.toggle('scanline-active');
-            document.getElementById('scanStatus').innerText = body.classList.contains('scanline-active') ? 'ON' : 'OFF';
-            document.getElementById('scanStatus').className = body.classList.contains('scanline-active') ? 'text-green-500' : 'text-red-500';
+            const status = document.getElementById('scanStatus');
+            status.innerText = body.classList.contains('scanline-active') ? 'ON' : 'OFF';
+            status.className = body.classList.contains('scanline-active') ? 'text-green-500' : 'text-red-500';
         }
 
         function toggleWeight() {
@@ -223,8 +291,7 @@
         function clock() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('en-AU', { 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', 
-                hour12: true, timeZone: 'Australia/Adelaide' 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Australia/Adelaide' 
             });
             const [time, ampm] = timeStr.split(' ');
             document.getElementById('bt-time').innerText = time;
@@ -235,14 +302,12 @@
             document.getElementById('progressBar').style.width = p + '%';
             document.getElementById('perc').innerText = Math.floor(p) + '%';
 
-            // Telemetry Fluctuation
             document.getElementById('ping').innerText = Math.floor(Math.random() * 10 + 12) + 'ms';
             document.getElementById('temp').innerText = (38 + Math.random()).toFixed(1) + '°C';
-
             requestAnimationFrame(clock);
         }
 
-        // --- VISUALIZER SIMULATION ---
+        // --- VISUALIZER ---
         const viz = document.getElementById('visualizer');
         for(let i=0; i<30; i++) {
             let bar = document.createElement('div');
@@ -251,8 +316,7 @@
         }
 
         function animateViz() {
-            const bars = document.querySelectorAll('.freq-bar');
-            bars.forEach(b => {
+            document.querySelectorAll('.freq-bar').forEach(b => {
                 const h = Math.random() * 100;
                 b.style.height = h + '%';
                 b.style.opacity = h / 100;
@@ -260,12 +324,9 @@
             setTimeout(animateViz, 150);
         }
 
-        // --- MOUSE PARALLAX ---
         document.addEventListener('mousemove', (e) => {
             const kernel = document.getElementById('kernel');
-            const x = (window.innerWidth / 2 - e.clientX) / 70;
-            const y = (window.innerHeight / 2 - e.clientY) / 70;
-            kernel.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
+            kernel.style.transform = `rotateX(${(window.innerHeight / 2 - e.clientY) / 70}deg) rotateY(${(e.clientX - window.innerWidth / 2) / 70}deg)`;
         });
 
         clock();
