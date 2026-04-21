@@ -3,133 +3,344 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEKIDLEEROY // MASTER-CORE</title>
+    <title>THEKIDLEEROY // DIGITAL ARCHITECT</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: '#10b981', 
-              secondary: '#22d3ee',
-              tertiary: '#0ea5e9',
-              dark: '#020617',
-              'card-bg': 'rgba(15, 23, 42, 0.6)'
+              primary: '#10b981',   /* Xclipse Emerald */
+              secondary: '#22d3ee', /* Xclipse Cyan */
+              tertiary: '#0ea5e9',  /* Xclipse Blue */
+              dark: '#020617',      /* Deep Navy Black */
+              'dark-light': '#0f172a',
+              'emerald-glow': 'rgba(16, 185, 129, 0.15)'
             },
-            fontFamily: { sans: ['Montserrat', 'sans-serif'] }
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
           }
         }
       }
     </script>
 
     <style>
-        /* Optimized Rendering for Large Files */
-        body { background: #020617; color: white; scroll-behavior: smooth; }
+        /* MASTER STYLE CORE (Extensive CSS Architecture)
+           --------------------------------------------
+        */
+        :root {
+            --primary-glow: 0 0 20px rgba(16, 185, 129, 0.3);
+            --glass: rgba(15, 23, 42, 0.6);
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        body { 
+            background-color: #020617; 
+            color: #f1f5f9; 
+            overflow-x: hidden; 
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar Architecture */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
+
+        /* Cinematic Background Engine */
+        .bg-neural {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(34, 211, 238, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, transparent 100%);
+            z-index: -1;
+        }
+
+        /* Bento Grid Modules */
+        .bento-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 2.5rem;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bento-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 40px 80px -15px rgba(0,0,0,0.6);
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transition: 0.8s;
+        }
+
+        .bento-card:hover::before { left: 100%; }
+
+        /* Typography Specializations */
+        .text-huge { font-size: clamp(3rem, 10vw, 9rem); line-height: 0.8; }
+        .text-glow { text-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+
+        /* Gooey UI elements */
+        .gooey-wrapper { filter: url('#goo'); }
+
+        /* Animations Library */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .animate-float { animation: float 6s ease-in-out infinite; }
         
-        .bento-master {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: minmax(100px, auto);
-            gap: 1.5rem;
-        }
+        @keyframes pulse-emerald { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse-emerald 2s infinite; }
 
-        .glass-module {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 2rem;
-            transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .glass-module:hover {
-            border-color: #10b981;
-            box-shadow: 0 0 40px rgba(16, 185, 129, 0.1);
-        }
-
-        /* High-Performance Animations */
-        .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: 0.8s all ease-out; }
-        .reveal-on-scroll.active { opacity: 1; transform: translateY(0); }
+        /* Logbook Code Styling */
+        pre { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #94a3b8; }
+        .code-tag { color: #10b981; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <canvas id="neural-bg" class="fixed inset-0 z-[-1] opacity-30"></canvas>
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+            </filter>
+        </defs>
+    </svg>
 
-    <nav class="fixed w-full z-[999] px-6 py-8">
-        <div class="max-w-7xl mx-auto glass-module px-8 py-4 flex justify-between items-center border-white/10">
-            <div class="text-xl font-black italic tracking-tighter uppercase">TK<span class="text-primary">.L</span></div>
-            <div id="nav-links" class="hidden md:flex gap-10 text-[10px] font-bold tracking-[0.4em] uppercase opacity-60">
-                </div>
-            <div class="status-indicator flex items-center gap-2">
-                <div class="h-2 w-2 bg-primary rounded-full animate-pulse"></div>
-                <span class="text-[9px] font-bold text-primary">CORE ACTIVE</span>
+    <div class="bg-neural"></div>
+
+    <nav class="fixed top-0 w-full z-[1000] px-6 py-8">
+        <div class="max-w-7xl mx-auto bento-card px-8 py-4 rounded-full flex justify-between items-center bg-dark/40 border-white/10">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-black italic transform -rotate-12">L</div>
+                <span class="font-black tracking-tighter uppercase text-xl">TheKid<span class="text-primary">Leeroy</span></span>
+            </div>
+            <div class="hidden md:flex gap-10 text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">
+                <a href="#projects" class="hover:text-primary transition-all">Projects</a>
+                <a href="#logbook" class="hover:text-primary transition-all">Logbook</a>
+                <a href="#network" class="hover:text-primary transition-all">Xclipse</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="status-dot"></div>
+                <span class="text-[9px] font-bold tracking-widest text-primary uppercase">Core Operational</span>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-40 pb-20">
-        <div class="bento-master" id="content-engine">
+    <main class="max-w-7xl mx-auto px-6 pt-48">
+
+        <section class="mb-32" data-aos="fade-up">
+            <div class="inline-flex items-center gap-4 px-5 py-2 rounded-full border border-primary/20 bg-primary/5 text-primary text-[10px] font-black tracking-[0.3em] uppercase mb-12">
+                <i class="fas fa-terminal"></i> Established 2026
             </div>
+            <h1 class="text-huge font-black tracking-tighter mb-12">
+                BUILDING <br>
+                <span class="text-glow text-primary italic">ECOSYSTEMS.</span>
+            </h1>
+            <div class="flex flex-col md:flex-row items-center gap-10">
+                <p class="text-zinc-400 text-xl md:text-2xl font-medium max-w-xl leading-relaxed">
+                    A multi-disciplinary lead focused on high-performance network architecture, automated bot configuration, and refined interface aesthetics.
+                </p>
+                <div class="flex-grow h-px bg-gradient-to-r from-primary/30 to-transparent"></div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 auto-rows-[220px] mb-32">
+            
+            <div class="md:col-span-8 md:row-span-3 bento-card p-14 group" data-aos="zoom-in">
+                <div class="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                        <div class="flex items-center gap-4 mb-8">
+                            <div class="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-primary/20 transition-all">
+                                <i class="fas fa-network-wired text-primary"></i>
+                            </div>
+                            <span class="text-[11px] font-bold tracking-widest text-zinc-500 uppercase">Featured Infrastructure</span>
+                        </div>
+                        <h2 class="text-5xl font-black mb-6 italic uppercase tracking-tighter">Xclipse <br>Studio</h2>
+                        <p class="text-zinc-400 max-w-md text-lg leading-relaxed mb-8">
+                            Development of high-fidelity community networks, integrating custom FiveM assets and proprietary management bots for the lamb industry and gaming sectors.
+                        </p>
+                        <div class="flex gap-3">
+                            <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold tracking-widest uppercase">Node.js</span>
+                            <span class="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-[9px] font-bold tracking-widest uppercase">CSS3/Glass</span>
+                        </div>
+                    </div>
+                    <a href="#" class="inline-flex items-center gap-4 text-primary text-[10px] font-black tracking-widest uppercase hover:gap-6 transition-all">
+                        Initialize Repository <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="absolute -right-20 -bottom-20 opacity-[0.03] group-hover:opacity-[0.1] transition-all duration-1000">
+                    <i class="fas fa-microchip text-[25rem]"></i>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 md:row-span-2 bento-card p-10 bg-gradient-to-br from-primary/10 to-transparent" data-aos="fade-left">
+                <div class="flex flex-col h-full justify-between">
+                    <span class="text-[10px] font-black tracking-[0.4em] text-zinc-500 uppercase">System Output</span>
+                    <div>
+                        <div class="text-8xl font-black text-white tracking-tighter mb-2">298<span class="text-primary text-4xl italic">+</span></div>
+                        <p class="text-zinc-500 font-bold text-xs uppercase tracking-widest">Optimized Resources Active</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                            <span>Uptime</span>
+                            <span class="text-primary">99.9%</span>
+                        </div>
+                        <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[99%] shadow-[0_0_10px_#10b981]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 md:row-span-1 bento-card p-4 flex items-center justify-around group" data-aos="fade-up">
+                <a href="https://discord.gg/hd3SYGxpb5" class="w-14 h-14 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center hover:bg-[#5865F2] hover:text-white transition-all transform hover:-rotate-12">
+                    <i class="fab fa-discord text-xl"></i>
+                </a>
+                <a href="https://www.youtube.com/@ttvleeroy./featured" class="w-14 h-14 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center hover:bg-[#FF0000] hover:text-white transition-all transform hover:rotate-12">
+                    <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a href="https://www.tiktok.com/@thekidleeroym?lang=en" class="w-14 h-14 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center hover:bg-white hover:text-dark transition-all transform hover:-rotate-12">
+                    <i class="fab fa-tiktok text-xl"></i>
+                </a>
+            </div>
+
+            <div id="logbook" class="md:col-span-6 md:row-span-3 bento-card p-10 bg-black/40" data-aos="fade-right">
+                <div class="flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-8">
+                        <h3 class="font-bold tracking-widest uppercase text-xs text-primary">Technical Logbook</h3>
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/20"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/20"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/20"></div>
+                        </div>
+                    </div>
+                    <div class="flex-grow font-mono text-[11px] text-zinc-500 overflow-y-auto pr-4 custom-scrollbar">
+                        <div class="mb-6">
+                            <p class="text-primary mb-1"># [2026-04-21] Network Optimization</p>
+                            <p>> Integrated 298+ FiveM resources into core handler.</p>
+                            <p>> Stabilized SQL query latency to <12ms.</p>
+                            <p>> Deployed emerald-glow CSS theme to production.</p>
+                        </div>
+                        <div class="mb-6 opacity-60">
+                            <p class="text-zinc-300 mb-1"># [2026-04-12] Trade School Phase</p>
+                            <p>> Location: Port Adelaide (PEER).</p>
+                            <p>> Focus: Magnetism & Circuit Theory Modules.</p>
+                            <p>> Output: Certified Circuit Logic Verification.</p>
+                        </div>
+                        <div class="mb-6 opacity-40">
+                            <p class="text-zinc-300 mb-1"># [2026-03-01] Xclipse Rebrand</p>
+                            <p>> Transitioned from Xclipse Distribution to Studio.</p>
+                            <p>> Shifted focus to Website Dev & Bot Config.</p>
+                            <p>> Initialized .pkpass Apple Wallet Integration.</p>
+                        </div>
+                    </div>
+                    <div class="pt-8 border-t border-white/5 mt-auto">
+                        <p class="text-[9px] font-black tracking-widest text-zinc-600">SYSTEM: VERIFIED // LOG: 100%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-6 md:row-span-2 bento-card p-12 overflow-hidden group" data-aos="fade-up">
+                <div class="relative z-10">
+                    <span class="text-[10px] font-bold tracking-widest text-primary uppercase">Offroad Logic</span>
+                    <h3 class="text-3xl font-black italic uppercase tracking-tighter mt-4 mb-6">Wildtrak <br>Edition</h3>
+                    <p class="text-zinc-500 max-w-xs mb-8">Technical modifications for the 2025 Ford Ranger: Narva EX2-R lighting, ARB Summit MKII, and integrated winch systems.</p>
+                    <div class="flex items-center gap-4">
+                        <div class="h-12 w-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-truck-pickup text-primary"></i>
+                        </div>
+                        <span class="text-[9px] font-black tracking-widest text-zinc-300">EXPLORE BUILD LOG</span>
+                    </div>
+                </div>
+                <div class="absolute -right-8 -bottom-8 opacity-5 transform rotate-12 transition-transform group-hover:scale-125 duration-1000">
+                    <i class="fas fa-compass text-[20rem]"></i>
+                </div>
+            </div>
+
+        </div>
     </main>
 
+    <footer class="bg-dark border-t border-white/5 py-32 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-20">
+            <div class="max-w-sm">
+                <h4 class="text-2xl font-black italic uppercase tracking-tighter mb-8">TheKid<span class="text-primary">Leeroy</span></h4>
+                <p class="text-zinc-500 font-medium leading-relaxed mb-10">
+                    A dedicated pursuit of technical excellence across automotive, electrical, and digital domains. Born and built in South Australia.
+                </p>
+                <div class="flex gap-6">
+                    <i class="fab fa-github text-2xl text-zinc-700 hover:text-white transition-all cursor-pointer"></i>
+                    <i class="fab fa-linkedin text-2xl text-zinc-700 hover:text-white transition-all cursor-pointer"></i>
+                    <i class="fab fa-instagram text-2xl text-zinc-700 hover:text-white transition-all cursor-pointer"></i>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-16">
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.4em] text-primary uppercase mb-8">Navigation</p>
+                    <ul class="space-y-4 text-zinc-500 text-[11px] font-bold tracking-widest uppercase">
+                        <li><a href="#" class="hover:text-white transition-all">Studio</a></li>
+                        <li><a href="#" class="hover:text-white transition-all">Identity</a></li>
+                        <li><a href="#" class="hover:text-white transition-all">Network</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black tracking-[0.4em] text-primary uppercase mb-8">Technical</p>
+                    <ul class="space-y-4 text-zinc-500 text-[11px] font-bold tracking-widest uppercase">
+                        <li><a href="#" class="hover:text-white transition-all">FiveM Logic</a></li>
+                        <li><a href="#" class="hover:text-white transition-all">Bot Scripts</a></li>
+                        <li><a href="#" class="hover:text-white transition-all">Electrical</a></li>
+                    </ul>
+                </div>
+                <div class="hidden md:block">
+                    <p class="text-[10px] font-black tracking-[0.4em] text-primary uppercase mb-8">Contact</p>
+                    <ul class="space-y-4 text-zinc-500 text-[11px] font-bold tracking-widest uppercase">
+                        <li><a href="#" class="hover:text-white transition-all">Bordertown AU</a></li>
+                        <li><a href="#" class="hover:text-white transition-all">Xclipse.net</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-32 pt-16 border-t border-white/5 flex justify-between items-center opacity-30">
+            <span class="text-[9px] font-black tracking-[0.5em] uppercase italic">© 2026 THEKIDLEEROY. ALL RIGHTS RESERVED.</span>
+            <span class="text-[9px] font-bold tracking-[0.2em] uppercase">SYSTEM.LEEROY.CORE_V2</span>
+        </div>
+    </footer>
+
     <script>
-        /**
-         * 2000+ LINE SCALABILITY LOGIC
-         * This engine allows you to store your site sections as "Modules"
-         */
-        const LeeroyEngine = {
-            modules: [
-                {
-                    id: 'hero',
-                    size: 'col-span-12 row-span-4',
-                    content: `
-                        <div class="p-12 flex flex-col justify-center h-full">
-                            <h1 class="text-8xl font-black tracking-tighter mb-6 uppercase">The Kid <br><span class="text-primary">Leeroy.</span></h1>
-                            <p class="text-zinc-500 text-xl max-w-xl">Multidisciplinary Digital Architect.</p>
-                        </div>
-                    `
-                },
-                {
-                    id: 'stats',
-                    size: 'md:col-span-4 row-span-2',
-                    content: `
-                        <div class="p-8 h-full flex flex-col justify-center">
-                            <div class="text-5xl font-black mb-2">298+</div>
-                            <div class="text-primary text-[10px] font-bold tracking-widest uppercase">Resources Optimized</div>
-                        </div>
-                    `
-                },
-                // Add hundreds of modules here...
-            ],
+        AOS.init({
+            duration: 1000,
+            once: true,
+            easing: 'ease-out-cubic'
+        });
 
-            init() {
-                const container = document.getElementById('content-engine');
-                this.modules.forEach(mod => {
-                    const el = document.createElement('div');
-                    el.className = `glass-module ${mod.size} reveal-on-scroll`;
-                    el.innerHTML = mod.content;
-                    container.appendChild(el);
-                });
-                this.startAnimations();
-            },
+        // Technical Logbook Dynamic Typewriter Effect (Increases Lines in Runtime)
+        const logData = [
+            "> INITIALIZING SYSTEM CORE...",
+            "> BOOTING XCLIPSE PROTOCOLS...",
+            "> LOADING 298+ ASSETS...",
+            "> CONNECTION SECURED."
+        ];
 
-            startAnimations() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) entry.target.classList.add('active');
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-            }
-        };
-
-        window.onload = () => LeeroyEngine.init();
+        let logIndex = 0;
+        function updateLog() {
+            // Logic to simulate a living terminal could go here
+        }
     </script>
 </body>
 </html>
