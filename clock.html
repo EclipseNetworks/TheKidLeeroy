@@ -3,217 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEKIDLEEROY | CHRONOS DIGITAL</title>
+    <title>TERMINAL // C2_ENGINE</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;900&family=Syncopate:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #10b981;
-            --bg: #020617;
+            --primary: #ec4899; /* Pink neon from your code */
+            --secondary: #0ea5e9; /* Blue neon */
+            --bg: #050811;
         }
 
         body {
             background-color: var(--bg);
             color: white;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'JetBrains Mono', monospace;
             height: 100vh;
             overflow: hidden;
             display: flex;
+        }
+
+        /* Scanline Overlay */
+        body::before {
+            content: " ";
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.02);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            z-index: 10;
+        }
+
+        .kernel-frame {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1500px;
-        }
-
-        /* Plasma Ambient Background */
-        .plasma {
-            position: fixed;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            filter: blur(120px);
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: -1;
-            transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1);
-        }
-
-        /* Glass Container */
-        .clock-container {
             position: relative;
-            padding: 5rem 8rem;
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(50px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 4rem;
-            transform-style: preserve-3d;
-            box-shadow: 
-                0 0 0 1px rgba(255,255,255,0.05),
-                0 40px 100px -20px rgba(0,0,0,0.7);
         }
 
-        /* Typographic Core */
-        .time-display {
-            display: flex;
-            align-items: baseline;
-            gap: 1.5rem;
-            transform: translateZ(100px);
-            filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.2));
+        /* Glass Kernel from your code */
+        .glass-kernel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(60px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 3rem;
+            padding: 5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
         }
 
         .main-time {
             font-family: 'Syncopate', sans-serif;
-            font-size: 10rem;
+            font-size: 8rem;
             font-weight: 700;
-            line-height: 0.8;
-            letter-spacing: -0.08em;
-            background: linear-gradient(to bottom, #fff 40%, var(--primary));
+            letter-spacing: -0.05em;
+            line-height: 1;
+            background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.2));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .seconds-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .sec-digit {
-            font-size: 2.5rem;
-            color: var(--primary);
-            font-weight: 300;
-            opacity: 0.8;
-        }
-
-        .meridiem {
-            font-size: 1rem;
-            letter-spacing: 0.5em;
-            color: white;
-            opacity: 0.3;
-            text-transform: uppercase;
-        }
-
-        /* HUD Aesthetics */
-        .hud-element {
-            position: absolute;
-            font-family: 'JetBrains Mono';
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.15);
-        }
-        .top-left { top: 2rem; left: 3rem; }
-        .bottom-right { bottom: 2rem; right: 3rem; }
-
-        .progress-bar {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40%;
-            height: 2px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
+        .status-badge {
             background: var(--primary);
-            width: 0%;
-            box-shadow: 0 0 10px var(--primary);
-            transition: width 1s linear;
+            color: black;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
 
-        /* Scanline Animation */
-        .clock-container::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 20%;
-            background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.05), transparent);
-            animation: scan 4s linear infinite;
+        .telemetry-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 4px;
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, transparent 20%, rgba(5, 8, 17, 0.8) 100%);
             pointer-events: none;
         }
-
-        @keyframes scan {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(500%); }
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="plasma" id="plasma"></div>
+    <div class="vignette"></div>
 
-    <div class="clock-container" id="clock">
-        <div class="hud-element top-left">System.Status: Synchronized</div>
-        
-        <div class="time-display">
-            <div class="main-time" id="time">12:00</div>
-            <div class="seconds-wrap">
-                <div class="meridiem" id="ampm">PM</div>
-                <div class="sec-digit" id="secs">00</div>
+    <aside class="sidebar">
+        <div class="mb-10">
+            <h2 class="font-bold text-[10px] text-primary tracking-[0.4em] uppercase mb-1">Xclipse_C2</h2>
+            <p class="text-[8px] opacity-30">UPLINK_STATUS: NOMINAL</p>
+        </div>
+
+        <nav class="flex-1 space-y-6">
+            <div>
+                <p class="text-[9px] opacity-20 uppercase font-bold tracking-widest mb-3">System Health</p>
+                <div class="telemetry-row"><span>CPU_KERNEL</span><span class="text-white">12%</span></div>
+                <div class="telemetry-row"><span>MEM_RESERVE</span><span class="text-white">4.2GB</span></div>
+                <div class="telemetry-row"><span>NET_LATENCY</span><span id="latency">-- ms</span></div>
+            </div>
+
+            <div>
+                <p class="text-[9px] opacity-20 uppercase font-bold tracking-widest mb-3">Network Nodes</p>
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                    <span class="text-[10px]">ADELAIDE_UPLINK</span>
+                </div>
+                <div class="flex items-center gap-2 opacity-40">
+                    <div class="w-1.5 h-1.5 rounded-full bg-white/20"></div>
+                    <span class="text-[10px]">SYDNEY_MIRROR</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="mt-auto pt-6 border-t border-white/5">
+            <p class="text-[8px] opacity-20">© 2026 TERMINAL_v4.2</p>
+        </div>
+    </aside>
+
+    <main class="kernel-frame">
+        <div class="glass-kernel" id="kernel">
+            <div class="status-badge">Temporal_Engine_v1</div>
+            
+            <div class="flex items-baseline justify-center gap-4">
+                <h1 class="main-time" id="bt-time">00:00:00</h1>
+                <span class="font-display italic text-3xl text-white/20" id="bt-ampm">--</span>
+            </div>
+
+            <div class="mt-10 flex flex-col items-center">
+                <p class="text-[10px] tracking-[1.5em] text-white/30 uppercase mb-4">Bordertown // South Australia</p>
+                <div class="w-64 h-[1px] bg-white/5 relative">
+                    <div class="absolute inset-0 bg-primary w-1/3" id="progress"></div>
+                </div>
             </div>
         </div>
-
-        <div class="hud-element bottom-right" id="date">APRIL 21, 2026</div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="bar"></div>
-        </div>
-    </div>
+    </main>
 
     <script>
-        const timeEl = document.getElementById('time');
-        const secsEl = document.getElementById('secs');
-        const ampmEl = document.getElementById('ampm');
-        const dateEl = document.getElementById('date');
-        const barEl = document.getElementById('bar');
-        const clock = document.getElementById('clock');
-        const plasma = document.getElementById('plasma');
+        const timeEl = document.getElementById('bt-time');
+        const ampmEl = document.getElementById('bt-ampm');
+        const progressEl = document.getElementById('progress');
+        const latencyEl = document.getElementById('latency');
 
         function update() {
             const now = new Date();
-            let h = now.getHours();
-            const m = String(now.getMinutes()).padStart(2, '0');
-            const s = now.getSeconds();
-            const ampm = h >= 12 ? 'PM' : 'AM';
-
-            // 12h Logic
-            h = h % 12 || 12;
-            const hStr = String(h).padStart(2, '0');
-
-            // Update DOM
-            timeEl.innerText = `${hStr}:${m}`;
-            secsEl.innerText = String(s).padStart(2, '0');
-            ampmEl.innerText = ampm;
             
-            // Progress bar (percent of the current minute)
-            const progress = (s / 60) * 100;
-            barEl.style.width = `${progress}%`;
+            // Time logic for Australia/Adelaide
+            const timeStr = now.toLocaleTimeString('en-AU', { 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', 
+                hour12: true, timeZone: 'Australia/Adelaide' 
+            });
 
-            // Date
-            const options = { month: 'long', day: 'numeric', year: 'numeric' };
-            dateEl.innerText = now.toLocaleDateString('en-US', options).toUpperCase();
+            const [time, ampm] = timeStr.split(' ');
+            timeEl.innerText = time;
+            ampmEl.innerText = ampm.toUpperCase();
+
+            // Latency Simulation
+            latencyEl.innerText = `${Math.floor(Math.random() * 15 + 8)}ms`;
+
+            // Progress bar (Percent of day passed)
+            const secondsPassed = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+            const dayPercent = (secondsPassed / 86400) * 100;
+            progressEl.style.width = `${dayPercent}%`;
+
+            requestAnimationFrame(update);
         }
 
-        // Reactive Mouse Movement
+        // Mouse Reactivity for the Kernel
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.clientX) / 40;
-            const y = (window.innerHeight / 2 - e.clientY) / 40;
-
-            // Clock Tilt
-            clock.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
-            
-            // Plasma Follow
-            plasma.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
+            const kernel = document.getElementById('kernel');
+            const x = (window.innerWidth / 2 - e.clientX) / 50;
+            const y = (window.innerHeight / 2 - e.clientY) / 50;
+            kernel.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
         });
 
-        setInterval(update, 1000);
         update();
     </script>
 </body>
