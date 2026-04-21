@@ -3,205 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEKIDLEEROY // ARCHITECT</title>
+    <title>THEKIDLEEROY // STUDIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600&family=Playfair+Display:italic,wght@700&display=swap');
         
-        :root {
-            --accent: #6366f1;
-            --accent-dim: rgba(99, 102, 241, 0.1);
-        }
-
         body { 
-            font-family: 'Space Grotesk', sans-serif; 
-            background-color: #030303;
-            color: #ffffff;
-            overflow-x: hidden;
+            font-family: 'Outfit', sans-serif; 
+            background-color: #fafafa;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Background */
-        .glass {
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .serif { font-family: 'Playfair Display', serif; }
 
-        /* Bento Card Hover Animations */
+        /* Smooth, non-cyber bento */
         .bento-card {
-            position: relative;
-            background: #0a0a0a;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid #eaeaea;
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .bento-card:hover {
-            transform: scale(1.02) translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-dim);
+            border-color: #1a1a1a;
+            transform: translateY(-4px);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.08);
         }
 
-        /* Animated Border Light */
-        .bento-card::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(99, 102, 241, 0.15), transparent 40%);
+        /* Organic Reveal Animation */
+        .reveal {
             opacity: 0;
-            transition: opacity 0.3s;
+            transform: translateY(20px);
+            animation: reveal 0.8s forwards;
         }
 
-        .bento-card:hover::after {
-            opacity: 1;
+        @keyframes reveal {
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Glowing Text */
-        .glow-indigo {
-            text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-        }
-
-        /* Continuous Marquee */
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            display: flex;
-            animation: marquee 30s linear infinite;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #030303; }
-        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
     </style>
 </head>
-<body class="selection:bg-indigo-500/30 selection:text-indigo-200">
+<body class="selection:bg-zinc-900 selection:text-white">
 
-    <nav class="fixed top-0 w-full z-[100] glass border-b border-white/5">
-        <div class="max-w-[1400px] mx-auto px-8 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-6">
-                <div class="flex flex-col leading-none">
-                    <span class="text-xl font-bold tracking-tighter uppercase italic">TheKid<span class="text-indigo-500">Leeroy</span></span>
-                    <span class="text-[8px] tracking-[0.6em] text-zinc-500 font-bold uppercase mt-1">Status: Operational</span>
-                </div>
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-zinc-100">
+        <div class="max-w-6xl mx-auto px-8 py-6 flex justify-between items-center">
+            <span class="text-lg font-semibold tracking-tighter uppercase">TheKid<span class="font-light text-zinc-400">Leeroy</span></span>
+            <div class="flex gap-12 text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-400">
+                <a href="#" class="hover:text-black transition-colors">Archive</a>
+                <a href="#" class="hover:text-black transition-colors">Journal</a>
+                <a href="#" class="hover:text-black transition-colors">Contact</a>
             </div>
-            <div class="hidden md:flex items-center gap-12 text-[10px] font-bold tracking-[0.3em] uppercase text-zinc-500">
-                <a href="#" class="hover:text-white hover:glow-indigo transition-all">Interface</a>
-                <a href="#" class="hover:text-white hover:glow-indigo transition-all">Protocols</a>
-                <a href="#" class="hover:text-white hover:glow-indigo transition-all">Archive</a>
-            </div>
-            <button class="px-6 py-2 border border-indigo-500/30 rounded-full text-[10px] font-bold tracking-widest hover:bg-indigo-600 hover:text-white transition-all shadow-lg shadow-indigo-500/10">
-                GET STARTED
-            </button>
         </div>
     </nav>
 
-    <main class="max-w-[1400px] mx-auto px-8 pt-32 pb-20">
+    <main class="max-w-6xl mx-auto px-8 pt-44 pb-32">
         
-        <header class="mb-16">
-            <div class="flex items-center gap-4 mb-6">
-                <span class="h-px w-12 bg-indigo-500"></span>
-                <span class="text-[10px] font-black tracking-[0.5em] text-indigo-400 uppercase">System Manifest 2026</span>
-            </div>
-            <h1 class="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.8] mb-8">
-                AESTHETIC <br>
-                <span class="text-zinc-800 hover:text-zinc-200 transition-colors duration-700">INTELLIGENCE.</span>
+        <header class="mb-24 reveal">
+            <h1 class="text-6xl md:text-8xl font-light tracking-tight leading-[1.1] mb-8">
+                Building with <br>
+                <span class="serif italic text-zinc-400 hover:text-black transition-all duration-500">Intention.</span>
             </h1>
+            <p class="text-zinc-500 max-w-xl text-xl font-light leading-relaxed">
+                A multidisciplinary approach to digital and physical craft. Focused on clarity, performance, and the details that matter.
+            </p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 auto-rows-[180px]">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[220px]">
             
-            <div class="md:col-span-8 md:row-span-3 bento-card rounded-3xl p-12 flex flex-col justify-between group">
+            <div class="md:col-span-8 md:row-span-2 bento-card rounded-2xl p-12 flex flex-col justify-between reveal delay-1">
                 <div class="max-w-md">
-                    <div class="h-12 w-12 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center mb-8">
-                        <i class="fas fa-terminal text-indigo-500"></i>
-                    </div>
-                    <h2 class="text-5xl font-bold mb-6 tracking-tight italic">Digital <br>Ecosystems.</h2>
-                    <p class="text-zinc-500 text-lg font-light leading-relaxed">
-                        Designing high-performance interfaces where code meets creativity. A relentless pursuit of the perfect digital framework.
+                    <span class="text-[10px] font-bold tracking-[0.3em] text-zinc-300 uppercase mb-4 block">01 / Concept</span>
+                    <h2 class="text-4xl font-light tracking-tight mb-6">Digital Strategy & <br>Visual Systems.</h2>
+                    <p class="text-zinc-500 font-light leading-relaxed">
+                        Moving beyond trends to create lasting value. From interface design to brand logic.
                     </p>
                 </div>
-                <div class="flex items-center gap-6">
-                    <span class="text-[10px] font-bold tracking-widest text-indigo-400 group-hover:translate-x-3 transition-transform">EXPLORE CASE STUDIES</span>
-                    <i class="fas fa-arrow-right text-[10px] text-indigo-500"></i>
-                </div>
-                <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-indigo-600/5 rounded-full blur-[100px] group-hover:bg-indigo-600/10 transition-colors"></div>
-            </div>
-
-            <div class="md:col-span-4 md:row-span-2 bento-card rounded-3xl p-8 flex flex-col justify-between bg-gradient-to-br from-zinc-900 to-black">
-                <div class="flex justify-between items-start">
-                    <span class="text-[10px] font-bold tracking-widest text-zinc-600 uppercase">Efficiency</span>
-                    <i class="fas fa-chart-line text-zinc-700"></i>
-                </div>
-                <div>
-                    <div class="text-6xl font-bold italic tracking-tighter mb-2">99.8%</div>
-                    <p class="text-zinc-500 text-xs font-medium uppercase tracking-widest">System Optimization</p>
-                </div>
-            </div>
-
-            <div class="md:col-span-2 md:row-span-2 bento-card rounded-3xl p-8 flex flex-col justify-center items-center text-center group">
-                <i class="fas fa-bolt text-2xl text-zinc-700 group-hover:text-yellow-500 group-hover:drop-shadow-[0_0_10px_rgba(234,179,8,0.5)] transition-all mb-4"></i>
-                <span class="text-sm font-bold tracking-tighter">Fast <br>Deployment</span>
-            </div>
-
-            <div class="md:col-span-4 md:row-span-1 bento-card rounded-full p-2 px-8 flex items-center justify-between border-white/5">
-                <span class="text-[10px] font-bold tracking-widest text-zinc-500">NETWORK STATUS</span>
-                <div class="flex gap-2">
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500/50"></span>
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500/30"></span>
-                </div>
-                <span class="text-[10px] font-mono text-emerald-500">STABLE</span>
-            </div>
-
-            <div class="md:col-span-6 md:row-span-2 bento-card rounded-3xl p-10 group cursor-pointer relative overflow-hidden">
-                <div class="flex flex-col h-full justify-between relative z-10">
-                    <h3 class="text-3xl font-bold tracking-tighter italic">Strategic <br>Archive.</h3>
-                    <div class="flex items-center gap-4">
-                        <div class="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
-                            <i class="fas fa-folder-open text-sm"></i>
-                        </div>
-                        <span class="text-[10px] font-bold tracking-widest text-zinc-500">2021—2026</span>
+                <div class="group flex items-center gap-4 cursor-pointer">
+                    <div class="h-10 w-10 rounded-full border border-zinc-100 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                        <i class="fas fa-arrow-right text-xs"></i>
                     </div>
+                    <span class="text-xs font-semibold uppercase tracking-widest">View Work</span>
                 </div>
-                <i class="fas fa-code-branch absolute -right-4 -bottom-4 text-[10rem] opacity-[0.02] group-hover:opacity-[0.05] transition-opacity"></i>
             </div>
 
-            <div class="md:col-span-4 md:row-span-1 bento-card rounded-3xl p-4 flex items-center justify-around">
-                <a href="#" class="h-10 w-10 rounded-xl hover:bg-white/5 flex items-center justify-center transition-colors"><i class="fab fa-instagram text-zinc-500 hover:text-white"></i></a>
-                <a href="#" class="h-10 w-10 rounded-xl hover:bg-white/5 flex items-center justify-center transition-colors"><i class="fab fa-dribbble text-zinc-500 hover:text-white"></i></a>
-                <a href="#" class="h-10 w-10 rounded-xl hover:bg-white/5 flex items-center justify-center transition-colors"><i class="fab fa-github text-zinc-500 hover:text-white"></i></a>
+            <div class="md:col-span-4 md:row-span-2 bento-card rounded-2xl overflow-hidden reveal delay-2">
+                <img src="https://images.unsplash.com/photo-1512133915970-ad1f296129e9?q=80&w=2070&auto=format&fit=crop" 
+                     alt="Minimalist Aesthetic" 
+                     class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+            </div>
+
+            <div class="md:col-span-4 md:row-span-1 bento-card rounded-2xl p-8 flex flex-col justify-center reveal delay-1">
+                <span class="text-3xl font-light italic serif mb-2">Philosophy</span>
+                <p class="text-zinc-400 text-sm font-light">Elegance is the reduction of the unnecessary.</p>
+            </div>
+
+            <div class="md:col-span-4 md:row-span-1 bento-card rounded-2xl p-8 flex items-center justify-between group cursor-pointer reveal delay-2">
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest">Connect</h3>
+                    <p class="text-zinc-400 text-xs mt-1">LinkedIn / X / Email</p>
+                </div>
+                <i class="fas fa-plus text-zinc-200 group-hover:rotate-90 transition-transform"></i>
+            </div>
+
+            <div class="md:col-span-4 md:row-span-1 bento-card rounded-2xl p-8 flex items-center gap-6 reveal delay-1">
+                <div class="h-2 w-2 rounded-full bg-zinc-900"></div>
+                <div>
+                    <p class="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">Current Status</p>
+                    <p class="text-sm font-medium">Accepting Selected Projects</p>
+                </div>
             </div>
 
         </div>
     </main>
 
-    <footer class="w-full bg-zinc-950 border-t border-white/5 py-6">
-        <div class="animate-marquee">
-            <span class="text-[10px] font-black tracking-[0.5em] text-zinc-800 uppercase mx-8">THEKIDLEEROY DIGITAL ESTATE</span>
-            <span class="text-[10px] font-black tracking-[0.5em] text-zinc-800 uppercase mx-8">BUILDING THE FUTURE OF INTERFACES</span>
-            <span class="text-[10px] font-black tracking-[0.5em] text-zinc-800 uppercase mx-8">STAY AHEAD OF THE CURVE</span>
-            <span class="text-[10px] font-black tracking-[0.5em] text-zinc-800 uppercase mx-8">THEKIDLEEROY DIGITAL ESTATE</span>
-            <span class="text-[10px] font-black tracking-[0.5em] text-zinc-800 uppercase mx-8">BUILDING THE FUTURE OF INTERFACES</span>
+    <footer class="max-w-6xl mx-auto px-8 py-20 border-t border-zinc-100 flex flex-col md:flex-row justify-between items-center gap-8">
+        <p class="text-xs font-light text-zinc-400 italic serif text-xl">TheKidLeeroy</p>
+        <div class="flex gap-10 text-[10px] font-bold tracking-[0.2em] text-zinc-300 uppercase">
+            <span>&copy; 2026 Studio</span>
+            <span>Bordertown, AU</span>
         </div>
     </footer>
 
-    <script>
-        // Reactive Mouse Effect for Bento Cards
-        document.querySelectorAll('.bento-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-                card.style.setProperty('--mouse-x', `${x}%`);
-                card.style.setProperty('--mouse-y', `${y}%`);
-            });
-        });
-    </script>
 </body>
 </html>
