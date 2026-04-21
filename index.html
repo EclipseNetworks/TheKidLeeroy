@@ -1,187 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEKIDLEEROY // XCLIPSE</title>
+    <title>XCLIPSE // DIGITAL ARCHITECT</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #10b981;
-            --secondary: #22d3ee;
-            --dark: #0f172a;
-            --dark-light: #1e293b;
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#10b981',
+              secondary: '#22d3ee',
+              tertiary: '#0ea5e9',
+              dark: '#0f172a',
+              'dark-light': '#1e293b'
+            },
+            fontFamily: {
+              sans: ['Montserrat', 'sans-serif'],
+            }
+          }
         }
+      }
+    </script>
 
+    <style>
         body { 
-            font-family: 'Montserrat', sans-serif; 
-            background-color: var(--dark);
-            color: #ffffff;
+            background-color: #0f172a; 
+            color: white; 
             overflow-x: hidden;
         }
 
-        /* Glassmorphism with Xclipse tint */
+        /* Xclipse Glow Card */
         .x-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(16px);
             border: 1px solid rgba(16, 185, 129, 0.1);
             transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             position: relative;
-            overflow: hidden;
         }
 
         .x-card:hover {
-            border-color: rgba(16, 185, 129, 0.4);
-            transform: translateY(-5px);
-            background: rgba(30, 41, 59, 0.6);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.15);
         }
 
-        /* Animated Gradient Background */
-        .bg-mesh {
+        /* Moving Mesh Background */
+        .mesh-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: 
-                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(34, 211, 238, 0.08) 0%, transparent 40%);
             z-index: -1;
         }
 
-        /* Glow Text Effect */
         .text-glow {
-            text-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
         }
 
-        /* Gooey Filter Button Logic */
-        .gooey-container {
-            filter: url('#goo');
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
+        /* Gooey logic placeholder for icons */
+        .gooey-filter { filter: url('#goo'); }
     </style>
 </head>
-<body>
+<body class="font-sans selection:bg-primary/30">
 
     <svg style="position: absolute; width: 0; height: 0;">
-        <defs>
-            <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-            </filter>
-        </defs>
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+        </filter>
+      </defs>
     </svg>
 
-    <div class="bg-mesh"></div>
+    <div class="mesh-bg"></div>
 
-    <nav class="fixed top-0 w-full z-50 bg-dark/80 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-primary text-xl font-black italic">★</span>
-                <span class="font-bold tracking-tighter text-xl">XCLIPSE<span class="text-primary">STUDIO</span></span>
+    <nav class="fixed top-0 w-full z-[100] border-b border-white/5 bg-dark/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-primary font-black italic">★</span>
+                <span class="text-xl font-extrabold tracking-tighter uppercase">XCLIPSE<span class="text-primary">STUDIO</span></span>
             </div>
-            <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-widest uppercase">
-                <a href="#" class="hover:text-primary transition-colors">Infrastructure</a>
-                <a href="#" class="hover:text-primary transition-colors">Development</a>
-                <a href="#" class="hover:text-primary transition-colors">Socials</a>
+            <div class="hidden md:flex gap-10 text-[10px] font-bold tracking-[0.3em] uppercase text-zinc-400">
+                <a href="#" class="hover:text-primary transition-all">Interface</a>
+                <a href="#" class="hover:text-primary transition-all">Servers</a>
+                <a href="#" class="hover:text-primary transition-all">Archive</a>
             </div>
-            <button class="bg-primary/10 border border-primary/20 hover:bg-primary hover:text-dark px-6 py-2 rounded-full text-[10px] font-black tracking-widest transition-all">
-                LAUNCH PORTAL
+            <button class="px-6 py-2 bg-primary/10 border border-primary/30 rounded-lg text-[10px] font-bold tracking-widest text-primary hover:bg-primary hover:text-dark transition-all">
+                ACCESS SYSTEM
             </button>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20">
+    <main class="max-w-7xl mx-auto px-8 pt-44 pb-20">
         
-        <header class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <div class="max-w-3xl">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="h-2 w-2 rounded-full bg-primary animate-pulse"></div>
-                    <span class="text-primary font-bold text-[10px] tracking-[0.4em] uppercase">System Established 2026</span>
-                </div>
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9]">
-                    STAYING <br><span class="text-primary text-glow">AHEAD.</span>
-                </h1>
+        <header class="mb-20">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="h-[2px] w-12 bg-primary"></span>
+                <span class="text-[10px] font-black tracking-[0.5em] text-primary uppercase">Protocol 2.0.26</span>
             </div>
-            <div class="flex gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:text-primary cursor-pointer transition-all">
-                    <i class="fab fa-discord text-xl"></i>
-                </div>
-                <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center hover:text-primary cursor-pointer transition-all">
-                    <i class="fab fa-youtube text-xl"></i>
-                </div>
-            </div>
+            <h1 class="text-6xl md:text-[7rem] font-extrabold tracking-tighter leading-[0.85] mb-10">
+                STAYING <br>
+                <span class="text-glow bg-gradient-to-r from-primary via-secondary to-tertiary bg-clip-text text-transparent">AHEAD.</span>
+            </h1>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[160px]">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[200px]">
             
-            <div class="md:col-span-8 md:row-span-3 x-card rounded-[2rem] p-10 flex flex-col justify-between group">
-                <div class="relative z-10">
-                    <div class="w-16 h-16 bg-primary/20 rounded-2xl flex items-center justify-center mb-8 transform group-hover:rotate-12 transition-transform">
-                        <i class="fas fa-microchip text-primary text-2xl"></i>
+            <div class="md:col-span-8 md:row-span-3 x-card rounded-[2.5rem] p-12 flex flex-col justify-between group">
+                <div class="max-w-md">
+                    <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-8 border border-primary/20">
+                        <i class="fas fa-microchip text-primary text-xl"></i>
                     </div>
-                    <h2 class="text-4xl font-bold mb-4">Advanced Network <br>Architectures.</h2>
-                    <p class="text-zinc-400 max-w-sm font-medium leading-relaxed">
-                        Deploying highly immersive digital environments with a focus on stability, low latency, and aesthetic interface design.
+                    <h2 class="text-5xl font-bold tracking-tight mb-8">Performance <br>Architecture.</h2>
+                    <p class="text-zinc-400 text-lg font-medium leading-relaxed">
+                        Engineering immersive digital ecosystems. We prioritize high-speed infrastructure and refined visual aesthetics.
                     </p>
                 </div>
-                <div class="flex items-center gap-4">
-                    <span class="text-[10px] font-black tracking-widest text-primary">ACCESS CORE PROTOCOLS</span>
-                    <div class="h-[1px] flex-grow bg-white/5 group-hover:bg-primary/30 transition-all"></div>
+                <div class="flex items-center gap-6 group cursor-pointer">
+                    <span class="text-[10px] font-black tracking-[0.3em] uppercase text-primary">Initialize Case Study</span>
+                    <i class="fas fa-chevron-right text-[10px] text-primary group-hover:translate-x-2 transition-transform"></i>
                 </div>
-                <i class="fas fa-shield-alt absolute -right-10 -bottom-10 text-[15rem] text-primary opacity-[0.03] group-hover:opacity-[0.07] transition-opacity"></i>
             </div>
 
-            <div class="md:col-span-4 md:row-span-2 x-card rounded-[2rem] p-8 flex flex-col justify-between bg-gradient-to-br from-dark-light to-dark border-primary/5">
-                <span class="text-[10px] font-bold tracking-[0.3em] text-zinc-500 uppercase">Server Status</span>
+            <div class="md:col-span-4 md:row-span-2 x-card rounded-[2.5rem] p-10 flex flex-col justify-between bg-gradient-to-br from-dark-light/50 to-dark">
+                <div class="flex justify-between items-start">
+                    <span class="text-[10px] font-bold tracking-widest text-zinc-500 uppercase">Global Uptime</span>
+                    <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]"></span>
+                </div>
                 <div>
-                    <div class="text-6xl font-black text-white italic tracking-tighter">24/7</div>
-                    <p class="text-primary text-[10px] font-bold tracking-widest mt-2 uppercase">Global Operational Uptime</p>
-                </div>
-                <div class="flex gap-1">
-                    <div class="h-1 w-full bg-primary rounded-full shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
-                    <div class="h-1 w-full bg-primary/20 rounded-full"></div>
-                    <div class="h-1 w-full bg-primary/20 rounded-full"></div>
+                    <div class="text-7xl font-extrabold text-white tracking-tighter">99.9</div>
+                    <p class="text-primary text-[10px] font-bold tracking-widest mt-2 uppercase">Operational Percentile</p>
                 </div>
             </div>
 
-            <div class="md:col-span-4 md:row-span-2 x-card rounded-[2rem] p-8 group">
-                <div class="flex justify-between items-start mb-12">
-                    <div class="text-zinc-500 text-xs font-mono">/bot_config</div>
-                    <i class="fas fa-robot text-primary/50 group-hover:text-primary transition-colors"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-2">Automated Logic</h3>
-                <p class="text-zinc-500 text-sm">Custom bot configurations and web scripts for seamless community management.</p>
+            <div class="md:col-span-4 md:row-span-1 x-card rounded-[2.5rem] p-8 flex items-center justify-around">
+                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-dark transition-all">
+                    <i class="fab fa-discord text-lg"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-dark transition-all">
+                    <i class="fab fa-youtube text-lg"></i>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary hover:text-dark transition-all">
+                    <i class="fab fa-tiktok text-lg"></i>
+                </a>
             </div>
 
-            <div class="md:col-span-12 md:row-span-1 x-card rounded-full p-2 flex items-center justify-between px-10">
-                <div class="flex items-center gap-4">
-                    <img src="xclipsenetworks-removebg-preview.png" class="h-8 w-8 animate-float" alt="Logo">
-                    <span class="text-[10px] font-bold tracking-[0.2em] text-zinc-400">JOIN THE NETWORK</span>
+            <div class="md:col-span-6 md:row-span-2 x-card rounded-[2.5rem] p-12 group cursor-pointer overflow-hidden">
+                <div class="relative z-10 flex flex-col h-full justify-between">
+                    <h3 class="text-3xl font-bold tracking-tighter">Custom <br>Frameworks.</h3>
+                    <div class="flex items-center gap-4 text-zinc-500">
+                        <i class="fas fa-cube text-primary"></i>
+                        <span class="text-[10px] font-bold tracking-widest uppercase">298+ Resources Active</span>
+                    </div>
                 </div>
-                <div class="flex gap-8 items-center">
-                    <span class="text-[10px] font-mono text-primary">298+ Resources Active</span>
-                    <a href="#" class="bg-primary px-8 py-2 rounded-full text-dark text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.3)]">Join Discord</a>
+                <i class="fas fa-network-wired absolute -right-10 -bottom-10 text-[12rem] text-primary/5 group-hover:scale-110 transition-transform duration-1000"></i>
+            </div>
+
+            <div class="md:col-span-6 md:row-span-2 x-card rounded-[2.5rem] p-12 flex flex-col justify-center items-center text-center group">
+                <div class="h-20 w-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <img src="xclipsenetworks-removebg-preview.png" class="h-10 w-10 object-contain" alt="Logo">
                 </div>
+                <h3 class="text-xl font-bold mb-2">Connect to Network</h3>
+                <p class="text-zinc-500 text-sm font-medium mb-8">Join our community of developers and creators.</p>
+                <button class="bg-primary text-dark font-black px-10 py-3 rounded-full text-[10px] tracking-widest shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+                    JOIN DISCORD
+                </button>
             </div>
 
         </div>
     </main>
 
-    <footer class="max-w-7xl mx-auto px-6 py-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <div class="text-[10px] font-bold tracking-[0.5em] text-zinc-600 uppercase">
-            © 2026 Xclipse Studio // Built for Performance
-        </div>
-        <div class="flex gap-6 text-[10px] font-black tracking-widest text-primary/40 uppercase">
-            <span>Terms</span>
-            <span>Privacy</span>
-            <span>South Australia</span>
+    <footer class="max-w-7xl mx-auto px-8 py-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-50">
+        <span class="text-[9px] font-black tracking-[0.5em] uppercase">XCLIPSE // 2026</span>
+        <div class="flex gap-10 text-[9px] font-bold tracking-[0.4em] uppercase">
+            <span>Security</span>
+            <span>Logic</span>
+            <span>Architecture</span>
         </div>
     </footer>
 
