@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THEKIDLEEROY | Secure Commander</title>
+    <title>THEKIDLEEROY | System Commander</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&family=Syncopate:wght@700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+        body { background: #020617; color: white; font-family: 'Outfit', sans-serif; min-height: 100vh; }
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .hidden { display: none !important; }
+        input, textarea { transition: all 0.3s ease; }
+        input:focus, textarea:focus { border-color: #10b981 !important; outline: none; background: rgba(0,0,0,0.7) !important; }
     </style>
 </head>
-<body class="p-6">
+<body class="p-6 md:p-12">
 
     <div id="auth-wall" class="fixed inset-0 z-[10000] bg-[#020617] flex items-center justify-center p-6">
-        <div class="w-full max-w-md glass p-10 rounded-[2.5rem] text-center">
+        <div class="w-full max-w-md glass p-10 rounded-[2.5rem] text-center border-t-2 border-emerald-500/20">
             <h1 class="syncopate text-2xl text-emerald-500 mb-2">Access Portal</h1>
-            <p class="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-10">THEKIDLEEROY System Command</p>
+            <p class="text-[10px] uppercase tracking-[0.3em] text-white/20 mb-10">Neural Identity Verification</p>
             
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Admin Email" class="w-full bg-black/50 border border-white/10 rounded-2xl p-5 outline-none focus:border-emerald-500 transition-all">
-                <input type="password" id="password" placeholder="Password (Optional for Magic Link)" class="w-full bg-black/50 border border-white/10 rounded-2xl p-5 outline-none focus:border-emerald-500 transition-all">
+                <input type="email" id="email" placeholder="Admin Email" class="w-full bg-black/50 border border-white/10 rounded-2xl p-5">
+                <input type="password" id="password" placeholder="Password (Optional for Magic Link)" class="w-full bg-black/50 border border-white/10 rounded-2xl p-5">
                 
                 <button id="loginBtn" class="w-full py-5 bg-emerald-600 text-black font-black rounded-2xl hover:bg-emerald-400 transition-all uppercase text-xs tracking-widest">Sign In</button>
                 
@@ -38,35 +40,62 @@
     </div>
 
     <div id="main-admin" class="max-w-6xl mx-auto hidden">
-        <header class="flex justify-between items-center mb-12 border-b border-white/5 pb-8">
+        <header class="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-white/5 pb-8 gap-6">
             <div>
                 <h1 class="syncopate text-3xl font-black italic">COMMAND<span class="text-emerald-500">ER</span></h1>
                 <p id="userDisplay" class="text-[10px] text-white/30 font-mono uppercase mt-1"></p>
             </div>
-            <button id="logoutBtn" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold hover:bg-red-500/20 hover:text-red-500 transition-all">TERMINATE SESSION</button>
+            <button id="logoutBtn" class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold hover:bg-red-500 hover:text-white transition-all uppercase tracking-widest">Terminate Session</button>
         </header>
 
         <div class="grid lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-8">
-                <div class="glass p-8 rounded-[2rem]">
-                    <h2 class="text-xs font-black uppercase text-white/20 mb-8 tracking-widest">Global Live Content</h2>
+                <div class="glass p-8 rounded-[2rem] border-l-4 border-emerald-500">
+                    <h2 class="text-xs font-black uppercase text-white/20 mb-8 tracking-widest flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                        Live Content Management
+                    </h2>
+                    
                     <form id="contentForm" class="space-y-6">
-                        <input type="text" id="serverName" placeholder="Server Name" class="w-full bg-black/30 border border-white/5 rounded-xl p-5">
-                        <textarea id="heroDesc" placeholder="Hero Description" class="w-full bg-black/30 border border-white/5 rounded-xl p-5 h-32"></textarea>
-                        <div class="flex gap-4">
-                            <input type="number" id="activeP" placeholder="Active" class="w-1/2 bg-black/30 border border-white/5 rounded-xl p-5">
-                            <input type="number" id="maxP" placeholder="Limit" class="w-1/2 bg-black/30 border border-white/5 rounded-xl p-5">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-white/40 uppercase ml-2">Server Brand Name</label>
+                            <input type="text" id="serverName" class="w-full bg-black/30 border border-white/5 rounded-xl p-5 font-bold">
                         </div>
-                        <button type="submit" class="w-full py-5 bg-emerald-600 text-black font-black rounded-xl">SYNC LIVE DATA</button>
+
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-white/40 uppercase ml-2">Hero Tagline</label>
+                            <textarea id="heroDesc" class="w-full bg-black/30 border border-white/5 rounded-xl p-5 h-32 leading-relaxed text-white/70"></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-white/40 uppercase ml-2">Active Users</label>
+                                <input type="number" id="activeP" class="w-full bg-black/30 border border-white/5 rounded-xl p-5 text-emerald-500 font-black">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold text-white/40 uppercase ml-2">Capacity Limit</label>
+                                <input type="number" id="maxP" class="w-full bg-black/30 border border-white/5 rounded-xl p-5 text-white/30 font-black">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="syncBtn" class="w-full py-6 bg-emerald-600 text-black font-black rounded-2xl hover:bg-emerald-400 shadow-lg shadow-emerald-900/20 transition-all transform active:scale-95 uppercase tracking-widest text-sm">
+                            Push Live Update
+                        </button>
                     </form>
                 </div>
             </div>
 
             <div class="space-y-8">
-                <div class="glass p-8 rounded-[2rem] border-t-2 border-red-500/20">
-                    <h2 class="text-xs font-black uppercase text-red-500 mb-6 tracking-widest">Security Override</h2>
-                    <button id="lockdownBtn" class="w-full py-6 rounded-xl border-2 border-red-500 text-red-500 font-black hover:bg-red-500 hover:text-white transition-all">ACTIVATE LOCKDOWN</button>
-                    <p class="text-[10px] text-white/20 mt-4 text-center">Forces maintenance screen for all users.</p>
+                <div class="glass p-8 rounded-[2rem] border-t-4 border-red-600">
+                    <h2 class="text-xs font-black uppercase text-red-500 mb-6 tracking-widest">Protocol: Lockdown</h2>
+                    <p class="text-[10px] text-white/30 mb-8 leading-relaxed italic">Instantly divert all frontend traffic to the maintenance interface. Use only in emergencies.</p>
+                    <button id="lockdownBtn" class="w-full py-6 rounded-2xl border-2 border-red-500 text-red-500 font-black hover:bg-red-500 hover:text-white transition-all duration-500 uppercase tracking-tighter text-lg">
+                        Engage Lockdown
+                    </button>
+                </div>
+                
+                <div class="glass p-6 rounded-2xl border border-white/5">
+                    <p class="text-[9px] font-mono text-white/20 uppercase tracking-widest text-center">System v4.0.0-PROD</p>
                 </div>
             </div>
         </div>
@@ -77,107 +106,122 @@
         import { getAuth, signInWithEmailAndPassword, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+        // --- CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyBA_2B7LNpeX9oKXNYy2bshgbqyQspv7js",
             authDomain: "thekidleeroy-7b866.firebaseapp.com",
             projectId: "thekidleeroy-7b866",
             storageBucket: "thekidleeroy-7b866.firebasestorage.app",
             messagingSenderId: "11424786498",
-            appId: "1:11424786498:web:a69be8cc44ac30aa1165db"
+            appId: "1:11424786498:web:a69be8cc44ac30aa1165db",
+            databaseURL: "https://thekidleeroy-7b866-default-rtdb.firebaseio.com" // Ensure this is correct
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // --- 1. AUTH LOGIC ---
+        // --- AUTH FLOW ---
+        const loginBtn = document.getElementById('loginBtn');
+        const magicBtn = document.getElementById('magicBtn');
+        const authStatus = document.getElementById('authStatus');
 
-        // Handle Password Login
-        document.getElementById('loginBtn').onclick = async () => {
+        loginBtn.onclick = async () => {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
-            } catch (err) {
-                document.getElementById('authStatus').innerText = "Auth Failed: " + err.message;
-            }
+            } catch (err) { authStatus.innerText = err.message; }
         };
 
-        // Handle Magic Link (Passwordless)
-        document.getElementById('magicBtn').onclick = async () => {
+        magicBtn.onclick = async () => {
             const email = document.getElementById('email').value;
             try {
                 await sendSignInLinkToEmail(auth, email, {
-                    url: window.location.href, // Redirect back here
+                    url: window.location.href,
                     handleCodeInApp: true
                 });
                 window.localStorage.setItem('emailForSignIn', email);
-                document.getElementById('authStatus').innerText = "Check your inbox for the link!";
-                document.getElementById('authStatus').style.color = "#10b981";
-            } catch (err) {
-                document.getElementById('authStatus').innerText = err.message;
-            }
+                authStatus.innerText = "Link sent! Check your email.";
+                authStatus.style.color = "#10b981";
+            } catch (err) { authStatus.innerText = err.message; }
         };
 
-        // Check if user is landing from a Magic Link
         if (isSignInWithEmailLink(auth, window.location.href)) {
-            let email = window.localStorage.getItem('emailForSignIn') || window.prompt('Confirm your email:');
+            let email = window.localStorage.getItem('emailForSignIn') || window.prompt('Confirm email:');
             signInWithEmailLink(auth, email, window.location.href)
                 .then(() => window.localStorage.removeItem('emailForSignIn'))
                 .catch(err => alert(err.message));
         }
 
-        // --- 2. MAIN APP LOGIC (Only runs when logged in) ---
-
+        // --- APP STATE CONTROL ---
         onAuthStateChanged(auth, (user) => {
             const wall = document.getElementById('auth-wall');
             const admin = document.getElementById('main-admin');
-            
             if (user) {
                 wall.classList.add('hidden');
                 admin.classList.remove('hidden');
-                document.getElementById('userDisplay').innerText = `SESSION: ${user.email}`;
-                initDatabase();
+                document.getElementById('userDisplay').innerText = `SECURE SESSION: ${user.email}`;
+                startLiveSync();
             } else {
                 wall.classList.remove('hidden');
                 admin.classList.add('hidden');
             }
         });
 
-        function initDatabase() {
+        // --- DATABASE LOGIC ---
+        function startLiveSync() {
             const siteRef = ref(db, 'siteData');
+            const syncBtn = document.getElementById('syncBtn');
 
+            // 1. Initial Data Fetch (Fill the inputs)
             onValue(siteRef, (snap) => {
                 const data = snap.val();
-                if(!data) return;
-                document.getElementById('serverName').value = data.serverName;
-                document.getElementById('heroDesc').value = data.heroDesc;
-                document.getElementById('activeP').value = data.activePlayers;
-                document.getElementById('maxP').value = data.maxPlayers;
+                if (!data) return;
+                document.getElementById('serverName').value = data.serverName || "";
+                document.getElementById('heroDesc').value = data.heroDesc || "";
+                document.getElementById('activeP').value = data.activePlayers || 0;
+                document.getElementById('maxP').value = data.maxPlayers || 0;
 
                 const lBtn = document.getElementById('lockdownBtn');
                 if (data.lockdown) {
                     lBtn.innerText = "DEACTIVATE LOCKDOWN";
-                    lBtn.classList.add('bg-red-500', 'text-white');
+                    lBtn.classList.add('bg-red-600', 'text-white');
                 } else {
-                    lBtn.innerText = "ACTIVATE LOCKDOWN";
-                    lBtn.classList.remove('bg-red-500', 'text-white');
+                    lBtn.innerText = "ENGAGE LOCKDOWN";
+                    lBtn.classList.remove('bg-red-600', 'text-white');
                 }
             });
 
-            document.getElementById('contentForm').onsubmit = (e) => {
-                e.preventDefault();
-                update(siteRef, {
-                    serverName: document.getElementById('serverName').value,
-                    heroDesc: document.getElementById('heroDesc').value,
-                    activePlayers: parseInt(document.getElementById('activeP').value),
-                    maxPlayers: parseInt(document.getElementById('maxP').value)
-                });
+            // 2. THE FIX: Sync Button Handler
+            document.getElementById('contentForm').onsubmit = async (e) => {
+                e.preventDefault(); // Stop page reload
+                syncBtn.innerText = "SYNCING...";
+                syncBtn.disabled = true;
+
+                try {
+                    await update(siteRef, {
+                        serverName: document.getElementById('serverName').value,
+                        heroDesc: document.getElementById('heroDesc').value,
+                        activePlayers: Number(document.getElementById('activeP').value),
+                        maxPlayers: Number(document.getElementById('maxP').value)
+                    });
+                    syncBtn.innerText = "SUCCESS! DATA PUSHED";
+                    setTimeout(() => { 
+                        syncBtn.innerText = "PUSH LIVE UPDATE";
+                        syncBtn.disabled = false;
+                    }, 2000);
+                } catch (err) {
+                    alert("Sync Error: " + err.message);
+                    syncBtn.innerText = "PUSH LIVE UPDATE";
+                    syncBtn.disabled = false;
+                }
             };
 
+            // 3. Lockdown Toggle
             document.getElementById('lockdownBtn').onclick = () => {
-                const isLocked = document.getElementById('lockdownBtn').innerText.includes("DEACTIVATE");
-                update(siteRef, { lockdown: !isLocked });
+                const isCurrentlyLocked = document.getElementById('lockdownBtn').innerText.includes("DEACTIVATE");
+                update(siteRef, { lockdown: !isCurrentlyLocked });
             };
         }
 
