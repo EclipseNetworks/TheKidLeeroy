@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KINETIC // DIGITAL</title>
+    <title>THEKIDLEEROY | CHRONOS DIGITAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;900&family=Syncopate:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
@@ -21,164 +21,200 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1000px;
+            perspective: 1500px;
         }
 
-        /* Ambient Scanning Grid */
-        .scan-grid {
+        /* Plasma Ambient Background */
+        .plasma {
             position: fixed;
-            inset: 0;
-            background: 
-                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
             z-index: -1;
+            transition: transform 0.6s cubic-bezier(0.2, 0, 0.2, 1);
         }
 
-        /* The Clock Chassis */
-        .clock-chassis {
+        /* Glass Container */
+        .clock-container {
             position: relative;
-            padding: 4rem 6rem;
+            padding: 5rem 8rem;
             background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(40px);
+            backdrop-filter: blur(50px) saturate(200%);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 3rem;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
+            border-radius: 4rem;
             transform-style: preserve-3d;
-            transition: transform 0.2s ease-out;
+            box-shadow: 
+                0 0 0 1px rgba(255,255,255,0.05),
+                0 40px 100px -20px rgba(0,0,0,0.7);
         }
 
-        .time-wrapper {
+        /* Typographic Core */
+        .time-display {
             display: flex;
             align-items: baseline;
-            gap: 1rem;
-            transform: translateZ(50px);
+            gap: 1.5rem;
+            transform: translateZ(100px);
+            filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.2));
         }
 
-        .digits {
+        .main-time {
             font-family: 'Syncopate', sans-serif;
-            font-size: 8rem;
+            font-size: 10rem;
             font-weight: 700;
-            line-height: 1;
-            letter-spacing: -0.05em;
-            background: linear-gradient(to bottom, #fff 30%, rgba(255,255,255,0.2));
+            line-height: 0.8;
+            letter-spacing: -0.08em;
+            background: linear-gradient(to bottom, #fff 40%, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
         }
 
-        .seconds-block {
+        .seconds-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
+        }
+
+        .sec-digit {
+            font-size: 2.5rem;
             color: var(--primary);
             font-weight: 300;
-            width: 60px;
+            opacity: 0.8;
         }
 
-        .period-indicator {
-            position: absolute;
-            top: 2rem;
-            right: 4rem;
-            font-family: 'JetBrains Mono';
-            font-size: 0.8rem;
-            letter-spacing: 0.4em;
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
-        }
-
-        /* Decorative HUD Elements */
-        .hud-line {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            width: 80%;
-            left: 10%;
+        .meridiem {
+            font-size: 1rem;
+            letter-spacing: 0.5em;
+            color: white;
             opacity: 0.3;
-        }
-        .line-top { top: 1.5rem; }
-        .line-bottom { bottom: 1.5rem; }
-
-        .telemetry {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 4rem;
-            font-family: 'JetBrains Mono';
-            font-size: 0.6rem;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: rgba(255,255,255,0.2);
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; filter: brightness(1.5); }
+        /* HUD Aesthetics */
+        .hud-element {
+            position: absolute;
+            font-family: 'JetBrains Mono';
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.15);
+        }
+        .top-left { top: 2rem; left: 3rem; }
+        .bottom-right { bottom: 2rem; right: 3rem; }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 2px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+            overflow: hidden;
         }
 
-        .pulse { animation: pulse-glow 2s infinite; }
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            box-shadow: 0 0 10px var(--primary);
+            transition: width 1s linear;
+        }
+
+        /* Scanline Animation */
+        .clock-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: linear-gradient(to bottom, transparent, rgba(16, 185, 129, 0.05), transparent);
+            animation: scan 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(500%); }
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="scan-grid"></div>
+    <div class="plasma" id="plasma"></div>
 
-    <div class="clock-chassis" id="chassis">
-        <div class="hud-line line-top"></div>
+    <div class="clock-container" id="clock">
+        <div class="hud-element top-left">System.Status: Synchronized</div>
         
-        <div class="period-indicator pulse" id="period">AM</div>
-
-        <div class="time-wrapper">
-            <div class="digits" id="time">12:00</div>
-            <div class="seconds-block" id="secs">00</div>
+        <div class="time-display">
+            <div class="main-time" id="time">12:00</div>
+            <div class="seconds-wrap">
+                <div class="meridiem" id="ampm">PM</div>
+                <div class="sec-digit" id="secs">00</div>
+            </div>
         </div>
 
-        <div class="telemetry">
-            Temporal.Link: Active<br>
-            Zone: <span id="zone">UTC</span>
-        </div>
+        <div class="hud-element bottom-right" id="date">APRIL 21, 2026</div>
 
-        <div class="hud-line line-bottom"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="bar"></div>
+        </div>
     </div>
 
     <script>
         const timeEl = document.getElementById('time');
         const secsEl = document.getElementById('secs');
-        const periodEl = document.getElementById('period');
-        const chassis = document.getElementById('chassis');
-        const zoneEl = document.getElementById('zone');
+        const ampmEl = document.getElementById('ampm');
+        const dateEl = document.getElementById('date');
+        const barEl = document.getElementById('bar');
+        const clock = document.getElementById('clock');
+        const plasma = document.getElementById('plasma');
 
-        // Update Time Logic
-        function refreshClock() {
+        function update() {
             const now = new Date();
             let h = now.getHours();
             const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
+            const s = now.getSeconds();
             const ampm = h >= 12 ? 'PM' : 'AM';
 
-            // 12-Hour Conversion
-            h = h % 12;
-            h = h ? h : 12; // Handle the '0' hour
+            // 12h Logic
+            h = h % 12 || 12;
             const hStr = String(h).padStart(2, '0');
 
+            // Update DOM
             timeEl.innerText = `${hStr}:${m}`;
-            secsEl.innerText = s;
-            periodEl.innerText = ampm;
+            secsEl.innerText = String(s).padStart(2, '0');
+            ampmEl.innerText = ampm;
             
-            // Get local timezone abbreviation
-            const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            zoneEl.innerText = zone.split('/').pop().replace('_', ' ');
+            // Progress bar (percent of the current minute)
+            const progress = (s / 60) * 100;
+            barEl.style.width = `${progress}%`;
+
+            // Date
+            const options = { month: 'long', day: 'numeric', year: 'numeric' };
+            dateEl.innerText = now.toLocaleDateString('en-US', options).toUpperCase();
         }
 
-        // Mouse Parallax
+        // Reactive Mouse Movement
         document.addEventListener('mousemove', (e) => {
-            const rotateX = (window.innerHeight / 2 - e.clientY) / 30;
-            const rotateY = (e.clientX - window.innerWidth / 2) / 30;
+            const x = (window.innerWidth / 2 - e.clientX) / 40;
+            const y = (window.innerHeight / 2 - e.clientY) / 40;
+
+            // Clock Tilt
+            clock.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
             
-            chassis.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            // Plasma Follow
+            plasma.style.transform = `translate(${e.clientX - 400}px, ${e.clientY - 400}px)`;
         });
 
-        // Initialize
-        setInterval(refreshClock, 1000);
-        refreshClock();
+        setInterval(update, 1000);
+        update();
     </script>
 </body>
 </html>
