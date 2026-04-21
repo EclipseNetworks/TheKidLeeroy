@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KINETIC // CHRONOS</title>
+    <title>KINETIC // DIGITAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;900&family=Syncopate:wght@700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #10b981;
             --bg: #020617;
-            --glass: rgba(255, 255, 255, 0.03);
         }
 
         body {
@@ -22,197 +21,164 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1200px;
+            perspective: 1000px;
         }
 
-        /* Reactive Grid Background */
-        .grid-bg {
+        /* Ambient Scanning Grid */
+        .scan-grid {
             position: fixed;
-            inset: -10%;
-            background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: translateZ(-200px);
-            z-index: -1;
-            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1);
-        }
-
-        /* The Clock Structure */
-        .chronos-container {
-            position: relative;
-            width: 450px;
-            height: 450px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-        }
-
-        .glass-face {
-            position: absolute;
             inset: 0;
-            background: var(--glass);
-            backdrop-filter: blur(25px) saturate(150%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
+            background: 
+                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+        }
+
+        /* The Clock Chassis */
+        .clock-chassis {
+            position: relative;
+            padding: 4rem 6rem;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 3rem;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.8);
+            transform-style: preserve-3d;
+            transition: transform 0.2s ease-out;
+        }
+
+        .time-wrapper {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
             transform: translateZ(50px);
         }
 
-        /* Orbital Ring */
-        .orbit {
-            position: absolute;
-            width: 550px;
-            height: 550px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 10s linear infinite;
-            pointer-events: none;
-        }
-
-        /* Clock Hands */
-        .hand {
-            position: absolute;
-            bottom: 50%;
-            left: 50%;
-            transform-origin: bottom center;
-            border-radius: 20px;
-            transform: translateZ(80px);
-            transition: transform 0.5s cubic-bezier(0.4, 2.08, 0.55, 0.44);
-        }
-
-        .h-hand { width: 8px; height: 110px; background: white; z-index: 3; }
-        .m-hand { width: 5px; height: 150px; background: rgba(255,255,255,0.4); z-index: 2; }
-        .s-hand { 
-            width: 2px; height: 180px; 
-            background: var(--primary); 
-            z-index: 4;
-            box-shadow: 0 0 20px var(--primary);
-        }
-
-        .center-hub {
-            width: 16px;
-            height: 16px;
-            background: #fff;
-            border-radius: 50%;
-            z-index: 10;
-            transform: translateZ(100px);
-            box-shadow: 0 0 30px rgba(255,255,255,0.5);
-        }
-
-        /* Aesthetic Text */
-        .data-stream {
-            position: absolute;
-            top: 40px;
-            left: 40px;
-            font-family: 'JetBrains Mono';
-            font-size: 9px;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.6;
-        }
-
-        .digital-readout {
-            position: absolute;
-            bottom: 40px;
-            font-family: 'Syncopate';
-            font-size: 20px;
+        .digits {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 8rem;
             font-weight: 700;
-            color: white;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+            line-height: 1;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to bottom, #fff 30%, rgba(255,255,255,0.2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
         }
 
-        /* Animations */
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .seconds-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: var(--primary);
+            font-weight: 300;
+            width: 60px;
         }
 
-        .glow-pulse {
-            animation: pulse 2s ease-in-out infinite;
+        .period-indicator {
+            position: absolute;
+            top: 2rem;
+            right: 4rem;
+            font-family: 'JetBrains Mono';
+            font-size: 0.8rem;
+            letter-spacing: 0.4em;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.7; }
+        /* Decorative HUD Elements */
+        .hud-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            width: 80%;
+            left: 10%;
+            opacity: 0.3;
         }
+        .line-top { top: 1.5rem; }
+        .line-bottom { bottom: 1.5rem; }
+
+        .telemetry {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 4rem;
+            font-family: 'JetBrains Mono';
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(255,255,255,0.2);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; filter: brightness(1.5); }
+        }
+
+        .pulse { animation: pulse-glow 2s infinite; }
     </style>
 </head>
 <body>
 
-    <div class="grid-bg" id="grid"></div>
-    <div class="orbit"></div>
+    <div class="scan-grid"></div>
 
-    <div class="chronos-container" id="chronos">
-        <div class="glass-face">
-            <div class="data-stream">
-                Model: 2026.V1<br>
-                Engine: Kinetic_JS<br>
-                Status: Synchronized
-            </div>
-            
-            <div class="digital-readout" id="digi">00:00:00</div>
+    <div class="clock-chassis" id="chassis">
+        <div class="hud-line line-top"></div>
+        
+        <div class="period-indicator pulse" id="period">AM</div>
+
+        <div class="time-wrapper">
+            <div class="digits" id="time">12:00</div>
+            <div class="seconds-block" id="secs">00</div>
         </div>
 
-        <div class="hand h-hand" id="hour"></div>
-        <div class="hand m-hand" id="min"></div>
-        <div class="hand s-hand" id="sec"></div>
-        
-        <div class="center-hub"></div>
-    </div>
+        <div class="telemetry">
+            Temporal.Link: Active<br>
+            Zone: <span id="zone">UTC</span>
+        </div>
 
-    <div class="fixed top-10 right-10 flex gap-4">
-        <div class="w-2 h-2 rounded-full bg-primary glow-pulse"></div>
-        <div class="w-2 h-2 rounded-full bg-white/20"></div>
-        <div class="w-2 h-2 rounded-full bg-white/20"></div>
+        <div class="hud-line line-bottom"></div>
     </div>
 
     <script>
-        const hourEl = document.getElementById('hour');
-        const minEl = document.getElementById('min');
-        const secEl = document.getElementById('sec');
-        const digiEl = document.getElementById('digi');
-        const chronos = document.getElementById('chronos');
-        const grid = document.getElementById('grid');
+        const timeEl = document.getElementById('time');
+        const secsEl = document.getElementById('secs');
+        const periodEl = document.getElementById('period');
+        const chassis = document.getElementById('chassis');
+        const zoneEl = document.getElementById('zone');
 
-        function updateTime() {
+        // Update Time Logic
+        function refreshClock() {
             const now = new Date();
-            const s = now.getSeconds();
-            const m = now.getMinutes();
-            const h = now.getHours();
+            let h = now.getHours();
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            const ampm = h >= 12 ? 'PM' : 'AM';
 
-            const sDeg = (s / 60) * 360;
-            const mDeg = (m / 60) * 360 + (s / 60) * 6;
-            const hDeg = (h % 12 / 12) * 360 + (m / 60) * 30;
+            // 12-Hour Conversion
+            h = h % 12;
+            h = h ? h : 12; // Handle the '0' hour
+            const hStr = String(h).padStart(2, '0');
 
-            // Apply rotations
-            secEl.style.transform = `translateZ(80px) translateX(-50%) rotate(${sDeg}deg)`;
-            minEl.style.transform = `translateZ(70px) translateX(-50%) rotate(${mDeg}deg)`;
-            hourEl.style.transform = `translateZ(60px) translateX(-50%) rotate(${hDeg}deg)`;
-
-            // Digital readout
-            digiEl.innerText = 
-                `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            timeEl.innerText = `${hStr}:${m}`;
+            secsEl.innerText = s;
+            periodEl.innerText = ampm;
+            
+            // Get local timezone abbreviation
+            const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            zoneEl.innerText = zone.split('/').pop().replace('_', ' ');
         }
 
-        // Mouse Reactivity
+        // Mouse Parallax
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.clientX) / 20;
-            const y = (window.innerHeight / 2 - e.clientY) / 20;
+            const rotateX = (window.innerHeight / 2 - e.clientY) / 30;
+            const rotateY = (e.clientX - window.innerWidth / 2) / 30;
             
-            // Tilt the clock
-            chronos.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
-            
-            // Subtle grid parallax
-            grid.style.transform = `translate3d(${x * 2}px, ${y * 2}px, -200px)`;
+            chassis.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
 
-        setInterval(updateTime, 1000);
-        updateTime();
+        // Initialize
+        setInterval(refreshClock, 1000);
+        refreshClock();
     </script>
 </body>
 </html>
