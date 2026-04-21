@@ -3,235 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERMINAL // CONFIG_MODE</title>
+    <title>TERMINAL // XCLIPSE_ULTRA</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@200;400;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Default System Colors */
             --primary: #ec4899; 
             --secondary: #0ea5e9;
             --bg: #050811;
-            --brightness: 1;
+            --glow: 20px;
+            --font-weight: 700;
         }
 
         body {
             background-color: var(--bg);
-            filter: brightness(var(--brightness));
             color: white;
             font-family: 'JetBrains Mono', monospace;
             height: 100vh;
             overflow: hidden;
             display: flex;
-            transition: filter 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Scanline Overlay */
-        body::before {
+        /* Hardware Scanline Toggleable */
+        .scanline-active::before {
             content: " ";
             position: fixed;
             inset: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
-            background-size: 100% 2px, 3px 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
             z-index: 100;
             pointer-events: none;
         }
 
         .sidebar {
-            width: 320px;
-            background: rgba(255, 255, 255, 0.02);
+            width: 340px;
+            background: rgba(255, 255, 255, 0.01);
             border-right: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(40px);
             display: flex;
             flex-direction: column;
-            padding: 2rem;
+            padding: 1.5rem;
             z-index: 10;
         }
 
         .glass-kernel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-            backdrop-filter: blur(60px);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0) 100%);
+            backdrop-filter: blur(var(--blur-val, 60px));
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 3rem;
-            padding: 5rem;
-            text-align: center;
+            border-radius: 4rem;
+            padding: 6rem;
             box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
             transform-style: preserve-3d;
         }
 
         .main-time {
             font-family: 'Syncopate', sans-serif;
-            font-size: 7rem;
-            font-weight: 700;
+            font-size: 8rem;
+            font-weight: var(--font-weight);
             letter-spacing: -0.05em;
-            background: linear-gradient(to bottom, #fff, rgba(255,255,255,0.2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 var(--glow) var(--primary));
+            transition: all 0.3s ease;
         }
 
-        /* Settings UI Components */
-        .config-label { font-size: 8px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; }
-        .color-swatch { width: 100%; height: 30px; border: none; background: none; cursor: pointer; border-radius: 4px; }
-        
-        .setting-card {
-            background: rgba(255,255,255,0.03);
+        /* Custom UI Elements */
+        .setting-section {
+            background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 1.25rem;
+            border-radius: 1.5rem;
             margin-bottom: 1rem;
         }
 
+        .config-label { font-size: 7px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; font-weight: 800; }
+        
         input[type="range"] {
             width: 100%;
             accent-color: var(--primary);
-            background: rgba(255,255,255,0.1);
-            height: 4px;
-            border-radius: 2px;
+            height: 2px;
             appearance: none;
+            background: rgba(255,255,255,0.1);
         }
 
-        .btn-reset {
-            font-size: 9px;
-            color: var(--primary);
-            text-decoration: underline;
+        .preset-btn {
+            font-size: 8px;
+            padding: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); }
+
+        .toggle-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
             cursor: pointer;
-            margin-top: 10px;
-            display: block;
         }
 
-        .accent-text { color: var(--primary); transition: color 0.3s ease; }
-        .accent-bg { background-color: var(--primary); transition: background 0.3s ease; }
+        /* Frequency Visualizer */
+        .freq-bar {
+            width: 3px;
+            background: var(--primary);
+            margin: 0 1px;
+            transition: height 0.1s ease;
+        }
     </style>
 </head>
-<body>
+<body class="scanline-active">
 
-    <aside class="sidebar">
-        <div class="mb-10">
-            <h2 class="font-bold text-[10px] accent-text tracking-[0.4em] uppercase mb-1">Xclipse_C2</h2>
-            <p class="text-[8px] opacity-30">KERNEL_CONFIG_ACTIVE</p>
+    <aside class="sidebar overflow-y-auto">
+        <div class="mb-8">
+            <h2 class="font-bold text-[11px] tracking-[0.5em] uppercase text-white">System_Commander<span class="animate-pulse text-pink-500">_</span></h2>
+            <p class="text-[8px] opacity-30 font-mono mt-1">BUILD: 2026.4.21.ULTRA</p>
         </div>
 
-        <div class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
-            <div class="setting-card">
-                <label class="config-label">Primary Accent</label>
-                <input type="color" id="primaryPicker" value="#ec4899" class="color-swatch">
-                
-                <div class="mt-4">
-                    <label class="config-label">Secondary Accent</label>
-                    <input type="color" id="secondaryPicker" value="#0ea5e9" class="color-swatch">
-                </div>
+        <div class="setting-section">
+            <label class="config-label">Color Profiles</label>
+            <div class="grid grid-cols-1 gap-1">
+                <button onclick="setTheme('#ec4899', '#050811', '60px')" class="preset-btn border-l-2 border-l-pink-500">01 // NEON_PINK</button>
+                <button onclick="setTheme('#0ea5e9', '#020617', '40px')" class="preset-btn border-l-2 border-l-blue-500">02 // VOLTAGE_BLUE</button>
+                <button onclick="setTheme('#4ade80', '#050a05', '50px')" class="preset-btn border-l-2 border-l-green-400">03 // TOXIC_VAULT</button>
+                <button onclick="setTheme('#ff003c', '#0a0000', '80px')" class="preset-btn border-l-2 border-l-red-600">04 // CRITICAL_RED</button>
+                <button onclick="setTheme('#ffffff', '#000000', '10px')" class="preset-btn border-l-2 border-l-white">05 // OBSIDIAN_WHITE</button>
             </div>
-
-            <div class="setting-card">
-                <label class="config-label">Kernel Brightness</label>
-                <input type="range" id="brightRange" min="0.2" max="1.5" step="0.1" value="1">
-                
-                <div class="mt-4">
-                    <label class="config-label">Glass Blur</label>
-                    <input type="range" id="blurRange" min="0" max="100" step="1" value="60">
-                </div>
-            </div>
-
-            <div class="setting-card">
-                <label class="config-label">System Presets</label>
-                <div class="grid grid-cols-2 gap-2 mt-2">
-                    <button onclick="setPreset('#ec4899', '#0ea5e9')" class="text-[8px] border border-white/10 py-1 hover:bg-white/5">CYBER_PINK</button>
-                    <button onclick="setPreset('#4ade80', '#10b981')" class="text-[8px] border border-white/10 py-1 hover:bg-white/5">EMERALD_NV</button>
-                    <button onclick="setPreset('#facc15', '#fb923c')" class="text-[8px] border border-white/10 py-1 hover:bg-white/5">AMBER_WARN</button>
-                    <button onclick="setPreset('#ffffff', '#333333')" class="text-[8px] border border-white/10 py-1 hover:bg-white/5">MONO_STARK</button>
-                </div>
-            </div>
-
-            <span class="btn-reset" onclick="resetSystem()">Factory Reset Kernel</span>
         </div>
 
-        <div class="mt-auto pt-6 border-t border-white/5 text-[8px] opacity-20 font-mono">
-            NODE_ID: Bordertown_SA<br>
-            LATENCY: <span id="lat">12ms</span>
+        <div class="setting-section space-y-4">
+            <div>
+                <label class="config-label">Glow Amplitude</label>
+                <input type="range" id="glowRange" min="0" max="60" value="20" oninput="updateGlow(this.value)">
+            </div>
+            
+            <div class="toggle-box" onclick="toggleScanlines()">
+                <span>HARDWARE_SCANLINES</span>
+                <div id="scanStatus" class="text-green-500">ON</div>
+            </div>
+
+            <div class="toggle-box" onclick="toggleWeight()">
+                <span>TYPOGRAPHY_MASS</span>
+                <div id="weightStatus">BOLD</div>
+            </div>
+        </div>
+
+        <div class="setting-section">
+            <label class="config-label">Kernel Activity</label>
+            <div class="flex items-end h-12 gap-[1px]" id="visualizer">
+                </div>
+        </div>
+
+        <div class="mt-auto text-[8px] opacity-20 space-y-1 font-mono">
+            <p>LATENCY_AUTO: <span id="ping">14ms</span></p>
+            <p>CORE_TEMP: <span id="temp">38°C</span></p>
+            <button onclick="location.reload()" class="hover:text-white underline">Reboot_Kernel</button>
         </div>
     </aside>
 
-    <main class="flex-1 flex items-center justify-center relative">
+    <main class="flex-1 flex flex-col items-center justify-center relative bg-black/20">
         <div class="glass-kernel" id="kernel">
-            <div class="accent-bg text-black text-[9px] font-black px-3 py-1 inline-block mb-6 tracking-widest uppercase">
-                Temporal_Engine_v4
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="h-px w-8 bg-white/10"></div>
+                <div class="text-[9px] tracking-[1em] text-white/40 uppercase">Temporal Engine</div>
+                <div class="h-px w-8 bg-white/10"></div>
             </div>
             
-            <div class="flex items-baseline justify-center gap-4">
+            <div class="flex items-baseline justify-center gap-6">
                 <h1 class="main-time" id="bt-time">00:00:00</h1>
-                <span class="font-display italic text-3xl text-white/20 uppercase" id="bt-ampm">--</span>
+                <span class="font-display italic text-4xl text-white/10 uppercase" id="bt-ampm">--</span>
             </div>
 
-            <div class="mt-12 flex flex-col items-center">
-                <p class="text-[10px] tracking-[1.5em] text-white/20 uppercase mb-4">Chronos Data Uplink</p>
-                <div class="w-80 h-[2px] bg-white/5 relative overflow-hidden">
-                    <div class="absolute inset-0 accent-bg w-1/3" id="progress"></div>
+            <div class="mt-16">
+                <div class="flex justify-between text-[8px] text-white/20 mb-2 tracking-widest uppercase">
+                    <span>Cycle_Progress</span>
+                    <span id="perc">0%</span>
+                </div>
+                <div class="w-96 h-[1px] bg-white/5 relative overflow-hidden">
+                    <div class="absolute inset-y-0 left-0 bg-white shadow-[0_0_10px_white] transition-all duration-1000" id="progressBar"></div>
                 </div>
             </div>
+        </div>
+
+        <div class="absolute bottom-10 text-[9px] text-white/10 tracking-[2em] uppercase">
+            Bordertown Station // South Australia
         </div>
     </main>
 
     <script>
-        // DOM Elements
-        const timeEl = document.getElementById('bt-time');
-        const ampmEl = document.getElementById('bt-ampm');
-        const progressEl = document.getElementById('progress');
         const root = document.documentElement;
-
-        // Settings Inputs
-        const pPicker = document.getElementById('primaryPicker');
-        const sPicker = document.getElementById('secondaryPicker');
-        const bRange = document.getElementById('brightRange');
-        const blurRange = document.getElementById('blurRange');
-        const kernel = document.getElementById('kernel');
-
-        // Color Update Logic
-        pPicker.oninput = (e) => root.style.setProperty('--primary', e.target.value);
-        sPicker.oninput = (e) => root.style.setProperty('--secondary', e.target.value);
-        bRange.oninput = (e) => root.style.setProperty('--brightness', e.target.value);
-        blurRange.oninput = (e) => kernel.style.backdropFilter = `blur(${e.target.value}px)`;
-
-        function setPreset(p, s) {
-            root.style.setProperty('--primary', p);
-            root.style.setProperty('--secondary', s);
-            pPicker.value = p;
-            sPicker.value = s;
+        
+        // --- SETTINGS ENGINE ---
+        function setTheme(primary, bg, glow) {
+            root.style.setProperty('--primary', primary);
+            root.style.setProperty('--bg', bg);
+            root.style.setProperty('--glow', glow);
+            document.getElementById('glowRange').value = parseInt(glow);
         }
 
-        function resetSystem() {
-            setPreset('#ec4899', '#0ea5e9');
-            root.style.setProperty('--brightness', '1');
-            bRange.value = 1;
-            kernel.style.backdropFilter = `blur(60px)`;
-            blurRange.value = 60;
+        function updateGlow(val) {
+            root.style.setProperty('--glow', val + 'px');
         }
 
-        // Clock Engine
-        function updateClock() {
+        function toggleScanlines() {
+            const body = document.body;
+            body.classList.toggle('scanline-active');
+            document.getElementById('scanStatus').innerText = body.classList.contains('scanline-active') ? 'ON' : 'OFF';
+            document.getElementById('scanStatus').className = body.classList.contains('scanline-active') ? 'text-green-500' : 'text-red-500';
+        }
+
+        function toggleWeight() {
+            const current = getComputedStyle(root).getPropertyValue('--font-weight').trim();
+            const next = current == '700' ? '200' : '700';
+            root.style.setProperty('--font-weight', next);
+            document.getElementById('weightStatus').innerText = next == '700' ? 'BOLD' : 'THIN';
+        }
+
+        // --- CLOCK & PROGRESS ---
+        function clock() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('en-AU', { 
                 hour: '2-digit', minute: '2-digit', second: '2-digit', 
                 hour12: true, timeZone: 'Australia/Adelaide' 
             });
             const [time, ampm] = timeStr.split(' ');
-            timeEl.innerText = time;
-            ampmEl.innerText = ampm;
+            document.getElementById('bt-time').innerText = time;
+            document.getElementById('bt-ampm').innerText = ampm;
 
-            const secondsPassed = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
-            progressEl.style.width = `${(secondsPassed / 86400) * 100}%`;
+            const s = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
+            const p = (s / 86400) * 100;
+            document.getElementById('progressBar').style.width = p + '%';
+            document.getElementById('perc').innerText = Math.floor(p) + '%';
 
-            document.getElementById('lat').innerText = `${Math.floor(Math.random() * 10 + 10)}ms`;
-            requestAnimationFrame(updateClock);
+            // Telemetry Fluctuation
+            document.getElementById('ping').innerText = Math.floor(Math.random() * 10 + 12) + 'ms';
+            document.getElementById('temp').innerText = (38 + Math.random()).toFixed(1) + '°C';
+
+            requestAnimationFrame(clock);
         }
 
-        // Parallax
+        // --- VISUALIZER SIMULATION ---
+        const viz = document.getElementById('visualizer');
+        for(let i=0; i<30; i++) {
+            let bar = document.createElement('div');
+            bar.className = 'freq-bar';
+            viz.appendChild(bar);
+        }
+
+        function animateViz() {
+            const bars = document.querySelectorAll('.freq-bar');
+            bars.forEach(b => {
+                const h = Math.random() * 100;
+                b.style.height = h + '%';
+                b.style.opacity = h / 100;
+            });
+            setTimeout(animateViz, 150);
+        }
+
+        // --- MOUSE PARALLAX ---
         document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.clientX) / 60;
-            const y = (window.innerHeight / 2 - e.clientY) / 60;
+            const kernel = document.getElementById('kernel');
+            const x = (window.innerWidth / 2 - e.clientX) / 70;
+            const y = (window.innerHeight / 2 - e.clientY) / 70;
             kernel.style.transform = `rotateX(${y}deg) rotateY(${-x}deg)`;
         });
 
-        updateClock();
+        clock();
+        animateViz();
     </script>
 </body>
 </html>
